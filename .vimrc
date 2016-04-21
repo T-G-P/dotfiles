@@ -25,7 +25,7 @@ if !filereadable(vundle_readme)
     silent !mkdir -p ~/.vim/bundle
     silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
     let iCanHazVundle=0
-    endif
+endif
 set rtp+=~/.vim/bundle/vundle/
 
 " start Vundle
@@ -147,7 +147,7 @@ set autoindent
 
 " UI Layout {{{
 
- " show line numbers
+" show line numbers
 set number             
 
 " show command in bottom bar
@@ -185,7 +185,7 @@ set hlsearch
 "=== folding ===
 
 " fold based on indent level
-set foldmethod=indent   
+set foldmethod=marker
 
 " max 10 depth
 set foldnestmax=10      
@@ -246,20 +246,20 @@ map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
 " Specify the behavior when switching between buffers 
 try
-  set switchbuf=useopen,usetab,newtab
-  set stal=2
+    set switchbuf=useopen,usetab,newtab
+    set stal=2
 catch
 endtry
 nnoremap B ^
 nnoremap E $
 nnoremap $ <nop>
 nnoremap ^ <nop>
-nnoremap gV `[v`]
+"nnoremap gV `[v`]
 onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
 xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
 onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
 xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
- 
+
 onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
 xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
 onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
@@ -300,10 +300,10 @@ vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
 vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
 
 if has("mac") || has("macunix")
-  nmap <D-j> <M-j>
-  nmap <D-k> <M-k>
-  vmap <D-j> <M-j>
-  vmap <D-k> <M-k>
+    nmap <D-j> <M-j>
+    nmap <D-k> <M-k>
+    vmap <D-j> <M-j>
+    vmap <D-k> <M-k>
 endif
 
 " When you press <leader>r you can search and replace the selected text
@@ -378,7 +378,7 @@ let g:ycm_autoclose_preview_window_after_completion=1
 
 let g:ag_working_path_mode="r"
 if executable('pt')
-	let g:ag_prg="pt"
+    let g:ag_prg="pt"
 endif
 " }}}
 
@@ -386,23 +386,23 @@ endif
 
 " Excluded directories for unite
 call unite#custom_source('file_rec/async,file_mru,file,buffer,grep',
-  \ 'ignore_pattern', join([
-  \ '\.git/',
-  \ '\.sass-cache/',
-  \ 'bower_components/',
-  \ 'dist/',
-  \ 'venv/',
-  \ 'node_modules/',
-  \ '\.divshot-cache/',
-  \ '\.svn/',
-  \ '\.hg/',
-  \ '\.bundle/',
-  \ 'vendor/',
-  \ 'tmp/',
-  \ 'log/',
-  \ '_build',
-  \ 'deps'
-  \ ], '\|'))
+            \ 'ignore_pattern', join([
+            \ '\.git/',
+            \ '\.sass-cache/',
+            \ 'bower_components/',
+            \ 'dist/',
+            \ 'venv/',
+            \ 'node_modules/',
+            \ '\.divshot-cache/',
+            \ '\.svn/',
+            \ '\.hg/',
+            \ '\.bundle/',
+            \ 'vendor/',
+            \ 'tmp/',
+            \ 'log/',
+            \ '_build',
+            \ 'deps'
+            \ ], '\|'))
 
 
 " Copying ctrlp functionality
@@ -426,18 +426,18 @@ autocmd FileType unite call s:unite_settings()
 
 " unite grep using the_platinum_searcher
 if executable('pt')
-  let g:unite_source_rec_async_command = 'pt --nocolor --nogroup -g .'
-  let g:unite_source_grep_command = 'pt'
-  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_opt = ''
-  let g:unite_source_grep_encoding = 'utf-8'
+    let g:unite_source_rec_async_command = 'pt --nocolor --nogroup -g .'
+    let g:unite_source_grep_command = 'pt'
+    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_opt = ''
+    let g:unite_source_grep_encoding = 'utf-8'
 
 elseif executable('ag')
-  let g:unite_source_rec_async_command = 'ag --nocolor --nogroup -g .'
-  let g:unite_source_grep_command = 'ag'
-  let g:unite_source_grep_default_oags = '--nogroup --nocolor'
-  let g:unite_source_grep_recursive_oag = ''
-  let g:unite_source_grep_encoding = 'utf-8'
+    let g:unite_source_rec_async_command = 'ag --nocolor --nogroup -g .'
+    let g:unite_source_grep_command = 'ag'
+    let g:unite_source_grep_default_oags = '--nogroup --nocolor'
+    let g:unite_source_grep_recursive_oag = ''
+    let g:unite_source_grep_encoding = 'utf-8'
 endif
 " "If the platinum searcher is installed
 " if executable('pt')
@@ -574,44 +574,44 @@ function! <SID>CleanFile()
     let @/=_s
     call cursor(l, c)
 endfunction
- 
+
 function! s:NextTextObject(motion, dir)
-  let c = nr2char(getchar())
- 
-  if c ==# "b"
-      let c = "("
-  elseif c ==# "B"
-      let c = "{"
-  elseif c ==# "r"
-      let c = "["
-  endif
- 
-  exe "normal! ".a:dir.c."v".a:motion.c
+    let c = nr2char(getchar())
+
+    if c ==# "b"
+        let c = "("
+    elseif c ==# "B"
+        let c = "{"
+    elseif c ==# "r"
+        let c = "["
+    endif
+
+    exe "normal! ".a:dir.c."v".a:motion.c
 endfunction
 
 " Build the ctrlp function, using projectroot to define the
 " working directory.
 function! Unite_ctrlp()
-  execute ':Unite  -buffer-name=files -start-insert file_rec/async'
+    execute ':Unite  -buffer-name=files -start-insert file_rec/async'
 endfunction
 
 function! s:unite_settings()
-  " Play nice with supertab
-  let b:SuperTabDisabled=1
-  " Enable navigation with control-j and control-k in insert mode
-  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
-  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
-  imap <buffer> <c-a> <Plug>(unite_choose_action)
-  " Not showing the trailing space as red if has vim-trailing-color installed
-  autocmd InsertLeave <buffer> match ExtraWhitespace //
-  autocmd InsertEnter <buffer> match ExtraWhitespace //
-  autocmd BufWinEnter <buffer> match ExtraWhitespace //
-  " Other Customizations
-  nnoremap <silent><buffer><expr> <C-x> unite#do_action('split')
-  nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
-  nnoremap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
+    " Play nice with supertab
+    let b:SuperTabDisabled=1
+    " Enable navigation with control-j and control-k in insert mode
+    imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+    imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+    imap <buffer> <c-a> <Plug>(unite_choose_action)
+    " Not showing the trailing space as red if has vim-trailing-color installed
+    autocmd InsertLeave <buffer> match ExtraWhitespace //
+    autocmd InsertEnter <buffer> match ExtraWhitespace //
+    autocmd BufWinEnter <buffer> match ExtraWhitespace //
+    " Other Customizations
+    nnoremap <silent><buffer><expr> <C-x> unite#do_action('split')
+    nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+    nnoremap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
 
-  nmap <buffer> <ESC> <Plug>(unite_exit)
+    nmap <buffer> <ESC> <Plug>(unite_exit)
 endfunction
 
 function! CmdLine(str)
@@ -653,22 +653,22 @@ endfunction
 " Don't close window, when deleting a buffer
 command! Bclose call <SID>BufcloseCloseIt()
 function! <SID>BufcloseCloseIt()
-   let l:currentBufNum = bufnr("%")
-   let l:alternateBufNum = bufnr("#")
+    let l:currentBufNum = bufnr("%")
+    let l:alternateBufNum = bufnr("#")
 
-   if buflisted(l:alternateBufNum)
-     buffer #
-   else
-     bnext
-   endif
+    if buflisted(l:alternateBufNum)
+        buffer #
+    else
+        bnext
+    endif
 
-   if bufnr("%") == l:currentBufNum
-     new
-   endif
+    if bufnr("%") == l:currentBufNum
+        new
+    endif
 
-   if buflisted(l:currentBufNum)
-     execute("bdelete! ".l:currentBufNum)
-   endif
+    if buflisted(l:currentBufNum)
+        execute("bdelete! ".l:currentBufNum)
+    endif
 endfunction
 
 " }}}

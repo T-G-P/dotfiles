@@ -1,0 +1,677 @@
+" Tobias Perelstein
+
+" Heaviliy inspired by :
+" https://gist.github.com/nongio/87af49b85ce898d3428e
+" https://github.com/j1z0/vim-config/blob/master/vimrc
+" https://github.com/johnhamelink/dotfiles/blob/master/nvim/init.vim
+" https://github.com/dougblack/dotfiles/blob/master/.vimrc
+" https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim
+
+" vundle {{{
+
+" required for Vundle
+set nocompatible                                        
+
+" required for Vundle
+filetype off                                            
+
+" setting up vundle and add Vundle to runtime path
+
+let iCanHazVundle=1
+let vundle_readme=expand('~/.vim/bundle/vundle/README.md')
+if !filereadable(vundle_readme)
+    echo "Installing Vundle.."
+    echo ""
+    silent !mkdir -p ~/.vim/bundle
+    silent !git clone https://github.com/gmarik/vundle ~/.vim/bundle/vundle
+    let iCanHazVundle=0
+    endif
+set rtp+=~/.vim/bundle/vundle/
+
+" start Vundle
+call vundle#begin()                                     
+" }}}
+
+" plugins {{{
+" let Vundle manage Vundle
+Plugin 'VundleVim/Vundle.vim'                           
+
+"search and file system related
+Plugin 'Shougo/vimproc.vim'
+Plugin 'Shougo/neomru.vim'
+Plugin 'Shougo/unite.vim'
+Plugin 'rking/ag.vim'
+Plugin 'kien/ctrlp.vim' 
+Plugin 'FelikZ/ctrlp-py-matcher'
+Plugin 'scrooloose/nerdtree'
+Plugin 'jistr/vim-nerdtree-tabs'
+Plugin 'yegappan/mru'
+
+" Git wrapper
+Plugin 'tpope/vim-fugitive'
+
+"python sytax checker
+Plugin 'nvie/vim-flake8'
+"Plugin 'vim-scripts/Pydiction'
+Plugin 'vim-scripts/indentpython.vim'
+Plugin 'scrooloose/syntastic'
+
+"auto-completion stuff
+Plugin 'Valloric/YouCompleteMe'
+Plugin 'klen/rope-vim'
+Plugin 'ervandew/supertab'
+Plugin 'davidhalter/jedi-vim'
+
+""code folding
+Plugin 'tmhedberg/SimpylFold'
+
+" Visualize undo tree
+Plugin 'vim-scripts/Gundo'
+
+" Vim EasyMotion
+Plugin 'easymotion/vim-easymotion'
+
+" Multiple cursors
+Plugin 'terryma/vim-multiple-cursors'
+
+" Vim Surround
+Plugin 'tpope/vim-surround'
+
+" Vim Airline
+Plugin 'vim-airline/vim-airline'
+
+"Vim Tmux Navigator
+Plugin 'christoomey/vim-tmux-navigator'
+
+"...All other plugins...
+if iCanHazVundle == 0
+    echo "Installing Plugins, please ignore key map error messages"
+    echo ""
+    :PluginInstall
+endif
+" stop Vundle
+call vundle#end()                                       
+
+" let plugins change indentation 
+filetype plugin indent on                               
+" }}}
+
+" Colors {{{
+" enable syntax processing
+syntax enable           
+
+try
+    colorscheme desert
+catch
+endtry
+
+set background=dark
+
+" Set extra options when running in GUI mode
+if has("gui_running")
+    set guioptions-=T
+    set guioptions-=e
+    set t_Co=256
+    set guitablabel=%M\ %t
+endif
+
+" Set utf8 as standard encoding and en_US as the standard language
+set encoding=utf8
+
+" Use Unix as the standard file type
+set ffs=unix,dos,mac
+
+" }}}
+
+" Misc {{{
+
+" faster redraw
+set ttyfast                     
+set backspace=indent,eol,start
+" }}}
+
+" Spaces & Tabs {{{
+
+" 4 space tab
+set tabstop=4           
+
+" use spaces for tabs
+set expandtab           
+
+" 4 space tab
+set softtabstop=4       
+set shiftwidth=4
+set modelines=1
+set autoindent
+" }}}
+
+" UI Layout {{{
+
+ " show line numbers
+set number             
+
+" show command in bottom bar
+set showcmd             
+
+" highlight current line
+set nocursorline          
+set wildmenu
+
+" higlight matching parenthesis
+set showmatch           
+" }}}
+
+" Visual Mode Related {{{ 
+
+" Visual mode pressing * or # searches for the current selection
+" Super useful! From an idea by Michael Naumann
+vnoremap <silent> * :call VisualSelection('f', '')<CR>
+vnoremap <silent> # :call VisualSelection('b', '')<CR>
+"}}}
+
+" Searching {{{
+
+" ignore case when searching
+set ignorecase          
+
+" search as characters are entered
+set incsearch           
+
+" highlight all matches
+set hlsearch            
+" }}}
+
+" Folding {{{
+"=== folding ===
+
+" fold based on indent level
+set foldmethod=indent   
+
+" max 10 depth
+set foldnestmax=10      
+
+" don't fold files by default on open
+set foldenable          
+nnoremap <space> za
+
+" start with fold level of 1
+set foldlevelstart=10    
+" }}}
+
+" Moving around, tabs, windows and buffers {{{
+map j gj
+map k gk
+
+" Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
+map <space> /
+map <c-space> ?
+
+" Disable highlight when <leader><cr> is pressed
+map <silent> <leader><cr> :noh<cr>
+
+" Smart way to move between windows
+map <C-j> <C-W>j
+map <C-k> <C-W>k
+map <C-h> <C-W>h
+map <C-l> <C-W>l
+
+" Close the current buffer
+map <leader>bd :Bclose<cr>:tabclose<cr>gT
+
+" Close all the buffers
+map <leader>ba :bufdo bd<cr>
+
+map <leader>l :bnext<cr>
+map <leader>h :bprevious<cr>
+
+" Useful mappings for managing tabs
+map <leader>tn :tabnew<cr>
+map <leader>to :tabonly<cr>
+map <leader>tc :tabclose<cr>
+map <leader>tm :tabmove 
+map <leader>t<leader> :tabnext 
+
+" Let 'tl' toggle between this and the last accessed tab
+let g:lasttab = 1
+nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
+au TabLeave * let g:lasttab = tabpagenr()
+
+
+" Opens a new tab with the current buffer's path
+" Super useful when editing files in the same directory
+map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
+
+" Switch CWD to the directory of the open buffer
+map <leader>cd :cd %:p:h<cr>:pwd<cr>
+
+" Specify the behavior when switching between buffers 
+try
+  set switchbuf=useopen,usetab,newtab
+  set stal=2
+catch
+endtry
+nnoremap B ^
+nnoremap E $
+nnoremap $ <nop>
+nnoremap ^ <nop>
+nnoremap gV `[v`]
+onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
+xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
+onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
+xnoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
+ 
+onoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+xnoremap al :<c-u>call <SID>NextTextObject('a', 'F')<cr>
+onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
+
+
+" When you press gv you Ag after the selected text
+vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+
+" }}}
+
+" Custom Mappings and Leader Shortcuts {{{
+let mapleader=","
+nnoremap <leader>m :silent make\|redraw!\|cw<CR>
+nnoremap <leader>w :NERDTree<CR>
+nnoremap <leader>u :GundoToggle<CR>
+nnoremap <leader>h :A<CR>
+nnoremap <leader>ev :vsp $MYVIMRC<CR>
+nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>sv :source $MYVIMRC<CR>
+nnoremap <leader>l :call ToggleNumber()<CR>
+nnoremap <leader><space> :noh<CR>
+nnoremap <leader>s :mksession<CR>
+nnoremap <leader>a :Ag 
+nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
+nnoremap <leader>1 :set number!<CR>
+nnoremap <leader>d :Make! 
+vnoremap <leader>y "+y
+vmap v <Plug>(expand_region_expand)
+vmap <C-v> <Plug>(expand_region_shrink)
+inoremap jk <esc>
+map 0 ^
+
+" Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
+nmap <M-j> mz:m+<cr>`z
+nmap <M-k> mz:m-2<cr>`z
+vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
+vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+
+if has("mac") || has("macunix")
+  nmap <D-j> <M-j>
+  nmap <D-k> <M-k>
+  vmap <D-j> <M-j>
+  vmap <D-k> <M-k>
+endif
+
+" When you press <leader>r you can search and replace the selected text
+vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
+
+" Do :help cope if you are unsure what cope is. It's super useful!
+"
+" When you search with Ag, display your results in cope by doing:
+"   <leader>cc
+"
+" To go to the next search result do:
+"   <leader>n
+"
+" To go to the previous search results do:
+"   <leader>p
+"
+map <leader>cc :botright cope<cr>
+map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+map <leader>n :cn<cr>
+map <leader>p :cp<cr>
+
+" Remove the Windows ^M - when the encodings gets messed up
+noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
+
+" Quickly open a buffer for scribble
+map <leader>q :e ~/buffer<cr>
+
+" Quickly open a markdown buffer for scribble
+map <leader>x :e ~/buffer.md<cr>
+
+" Toggle paste mode on and off
+map <leader>pp :setlocal paste!<cr>
+
+" }}}
+
+" Vim Airline{{{
+"set encoding=utf-8
+"python from powerline.vim import setup as powerline_setup
+"python powerline_setup()
+"python del powerline_setup
+let g:airline#extensions#tabline#left_sep = ' '
+let g:airline#extensions#tabline#left_alt_sep = '|'
+let g:airline_left_sep = ''
+let g:airline_left_alt_sep = ''
+let g:airline_right_sep = ''
+let g:airline_right_alt_sep = ''
+set laststatus=2
+" }}}
+
+" CtrlP {{{
+let g:ctrlp_match_window = 'bottom,order:ttb'
+let g:ctrlp_switch_buffer = 0
+let g:ctrlp_working_path_mode = 0
+let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
+let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+" }}}
+
+" NERDTree {{{
+let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
+" }}}
+
+" Syntastic {{{
+let g:syntastic_python_flake8_args='--ignore=E501'
+let g:syntastic_ignore_files = ['.java$']
+" }}}
+
+" YouCompleteMe {{{
+let g:ycm_autoclose_preview_window_after_completion=1
+" }}}
+
+" Ag {{{
+
+let g:ag_working_path_mode="r"
+if executable('pt')
+	let g:ag_prg="pt"
+endif
+" }}}
+
+" Unite {{{
+
+" Excluded directories for unite
+call unite#custom_source('file_rec/async,file_mru,file,buffer,grep',
+  \ 'ignore_pattern', join([
+  \ '\.git/',
+  \ '\.sass-cache/',
+  \ 'bower_components/',
+  \ 'dist/',
+  \ 'venv/',
+  \ 'node_modules/',
+  \ '\.divshot-cache/',
+  \ '\.svn/',
+  \ '\.hg/',
+  \ '\.bundle/',
+  \ 'vendor/',
+  \ 'tmp/',
+  \ 'log/',
+  \ '_build',
+  \ 'deps'
+  \ ], '\|'))
+
+
+" Copying ctrlp functionality
+call unite#filters#matcher_default#use(['matcher_fuzzy'])
+call unite#filters#sorter_default#use(['sorter_rank'])
+
+let g:unite_source_history_yank_enable = 1
+
+nnoremap <space>b :Unite -quick-match buffer<cr>
+nnoremap <space>p :<C-u>Unite file_rec/async<cr>
+"unite grep
+nnoremap <space>f :<C-u>Unite grep:.<cr>
+nnoremap <space>F :<C-u>Unite grep<CR>
+noremap <space>y :Unite history/yank<cr>
+
+"nnoremap <space>p :call Unite_ctrlp()<cr>
+nnoremap <leader>s :Unite -quick-match buffer<cr>
+
+" Call these custom settings on all unite buffers:
+autocmd FileType unite call s:unite_settings()
+
+" unite grep using the_platinum_searcher
+if executable('pt')
+  let g:unite_source_rec_async_command = 'pt --nocolor --nogroup -g .'
+  let g:unite_source_grep_command = 'pt'
+  let g:unite_source_grep_default_opts = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_opt = ''
+  let g:unite_source_grep_encoding = 'utf-8'
+
+elseif executable('ag')
+  let g:unite_source_rec_async_command = 'ag --nocolor --nogroup -g .'
+  let g:unite_source_grep_command = 'ag'
+  let g:unite_source_grep_default_oags = '--nogroup --nocolor'
+  let g:unite_source_grep_recursive_oag = ''
+  let g:unite_source_grep_encoding = 'utf-8'
+endif
+" "If the platinum searcher is installed
+" if executable('pt')
+"   " Tell unite to use ag for searching
+"   let g:unite_source_grep_command = 'pt'
+" 
+"   " Tell ag.vim to use pt binary
+"   let g:ag_prg="pt"
+" 
+" "If the silver searcher is installed
+" elseif executable('ag')
+"   let g:unite_source_grep_command = 'ag'
+" " Use defaults otherwise
+" endif
+
+" }}}
+
+" Launch Config {{{
+runtime! debian.vim
+set nocompatible
+
+" MacVim {{{
+set guioptions-=r 
+set guioptions-=L
+" }}}
+
+" AutoGroups {{{
+augroup configgroup
+    autocmd!
+    autocmd VimEnter * highlight clear SignColumn
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb :call <SID>StripTrailingWhitespaces()
+    autocmd BufEnter *.cls setlocal filetype=java
+    autocmd BufEnter *.zsh-theme setlocal filetype=zsh
+    autocmd BufEnter Makefile setlocal noexpandtab
+    autocmd BufEnter *.sh setlocal tabstop=2
+    autocmd BufEnter *.sh setlocal shiftwidth=2
+    autocmd BufEnter *.sh setlocal softtabstop=2
+augroup END
+" }}}
+
+" Backups {{{
+set backup 
+set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+set backupskip=/tmp/*,/private/tmp/* 
+set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+set writebackup
+" }}}
+
+" python {{{
+
+" ------------Start Python PEP 8 stuff----------------
+
+" Number of spaces that a pre-existing tab is equal to.
+au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
+
+"spaces for indents
+au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
+au BufRead,BufNewFile *.py,*.pyw set expandtab
+au BufRead,BufNewFile *.py set softtabstop=4
+
+" Use the below highlight group when displaying bad whitespace is desired.
+highlight BadWhitespace ctermbg=red guibg=red
+
+" Display tabs at the beginning of a line in Python mode as bad.
+au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+
+" Make trailing whitespace be flagged as bad.
+au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+" Wrap text after a certain number of characters
+au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
+
+" Use UNIX (\n) line endings.
+au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
+
+" Set the default file encoding to UTF-8:
+set encoding=utf-8
+
+" For full syntax highlighting:
+let python_highlight_all=1
+syntax on
+
+" Keep indentation level from previous line:
+autocmd FileType python set autoindent
+
+"Folding based on indentation:
+autocmd FileType python set foldmethod=indent
+
+"----------Stop python PEP 8 stuff--------------
+" }}}
+
+" Spell checking {{{
+
+" Pressing ,ss will toggle and untoggle spell checking
+map <leader>ss :setlocal spell!<cr>
+
+" Shortcuts using <leader>
+map <leader>sn ]s
+map <leader>sp [s
+map <leader>sa zg
+map <leader>s? z=
+" }}}
+
+" Custom Functions {{{
+function! ToggleNumber()
+    if(&relativenumber == 1)
+        set norelativenumber
+        set number
+    else
+        set relativenumber
+    endif
+endfunc
+
+" strips trailing whitespace at the end of files. this
+" is called on buffer write in the autogroup above.
+function! <SID>StripTrailingWhitespaces()
+    " save last search & cursor position
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    %s/\s\+$//e
+    let @/=_s
+    call cursor(l, c)
+endfunction
+
+function! <SID>CleanFile()
+    " Preparation: save last search, and cursor position.
+    let _s=@/
+    let l = line(".")
+    let c = col(".")
+    " Do the business:
+    %!git stripspace
+    " Clean up: restore previous search history, and cursor position
+    let @/=_s
+    call cursor(l, c)
+endfunction
+ 
+function! s:NextTextObject(motion, dir)
+  let c = nr2char(getchar())
+ 
+  if c ==# "b"
+      let c = "("
+  elseif c ==# "B"
+      let c = "{"
+  elseif c ==# "r"
+      let c = "["
+  endif
+ 
+  exe "normal! ".a:dir.c."v".a:motion.c
+endfunction
+
+" Build the ctrlp function, using projectroot to define the
+" working directory.
+function! Unite_ctrlp()
+  execute ':Unite  -buffer-name=files -start-insert file_rec/async'
+endfunction
+
+function! s:unite_settings()
+  " Play nice with supertab
+  let b:SuperTabDisabled=1
+  " Enable navigation with control-j and control-k in insert mode
+  imap <buffer> <C-j>   <Plug>(unite_select_next_line)
+  imap <buffer> <C-k>   <Plug>(unite_select_previous_line)
+  imap <buffer> <c-a> <Plug>(unite_choose_action)
+  " Not showing the trailing space as red if has vim-trailing-color installed
+  autocmd InsertLeave <buffer> match ExtraWhitespace //
+  autocmd InsertEnter <buffer> match ExtraWhitespace //
+  autocmd BufWinEnter <buffer> match ExtraWhitespace //
+  " Other Customizations
+  nnoremap <silent><buffer><expr> <C-x> unite#do_action('split')
+  nnoremap <silent><buffer><expr> <C-v> unite#do_action('vsplit')
+  nnoremap <silent><buffer><expr> <C-t> unite#do_action('tabopen')
+
+  nmap <buffer> <ESC> <Plug>(unite_exit)
+endfunction
+
+function! CmdLine(str)
+    exe "menu Foo.Bar :" . a:str
+    emenu Foo.Bar
+    unmenu Foo
+endfunction 
+
+function! VisualSelection(direction, extra_filter) range
+    let l:saved_reg = @"
+    execute "normal! vgvy"
+
+    let l:pattern = escape(@", '\\/.*$^~[]')
+    let l:pattern = substitute(l:pattern, "\n$", "", "")
+
+    if a:direction == 'b'
+        execute "normal ?" . l:pattern . "^M"
+    elseif a:direction == 'gv'
+        call CmdLine("Ag \"" . l:pattern . "\" " )
+    elseif a:direction == 'replace'
+        call CmdLine("%s" . '/'. l:pattern . '/')
+    elseif a:direction == 'f'
+        execute "normal /" . l:pattern . "^M"
+    endif
+
+    let @/ = l:pattern
+    let @" = l:saved_reg
+endfunction
+
+
+" Returns true if paste mode is enabled
+function! HasPaste()
+    if &paste
+        return 'PASTE MODE  '
+    endif
+    return ''
+endfunction
+
+" Don't close window, when deleting a buffer
+command! Bclose call <SID>BufcloseCloseIt()
+function! <SID>BufcloseCloseIt()
+   let l:currentBufNum = bufnr("%")
+   let l:alternateBufNum = bufnr("#")
+
+   if buflisted(l:alternateBufNum)
+     buffer #
+   else
+     bnext
+   endif
+
+   if bufnr("%") == l:currentBufNum
+     new
+   endif
+
+   if buflisted(l:currentBufNum)
+     execute("bdelete! ".l:currentBufNum)
+   endif
+endfunction
+
+" }}}
+
+" vim:foldmethod=marker:foldlevel=0
+

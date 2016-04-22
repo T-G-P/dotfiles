@@ -1,4 +1,6 @@
 " Tobias Perelstein
+vnoremap <silent> ga :call VisualSelection('gv', '')<CR>
+vnoremap <silent> ga :call VisualSelection('gv', '')<CR>
 
 " Heaviliy inspired by :
 " https://gist.github.com/nongio/87af49b85ce898d3428e
@@ -7,7 +9,7 @@
 " https://github.com/dougblack/dotfiles/blob/master/.vimrc
 " https://github.com/amix/vimrc/blob/master/vimrcs/basic.vim
 
-" vundle {{{
+" Vundle {{{
 
 " required for Vundle
 set nocompatible                                        
@@ -32,7 +34,7 @@ set rtp+=~/.vim/bundle/vundle/
 call vundle#begin()                                     
 " }}}
 
-" plugins {{{
+" Plugins {{{
 " let Vundle manage Vundle
 Plugin 'VundleVim/Vundle.vim'                           
 
@@ -52,7 +54,7 @@ Plugin 'tpope/vim-fugitive'
 
 "python sytax checker
 Plugin 'nvie/vim-flake8'
-"Plugin 'vim-scripts/Pydiction'
+Plugin 'vim-scripts/Pydiction'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
 
@@ -79,9 +81,14 @@ Plugin 'tpope/vim-surround'
 
 " Vim Airline
 Plugin 'vim-airline/vim-airline'
+Plugin 'bling/vim-bufferline'
 
 "Vim Tmux Navigator
 Plugin 'christoomey/vim-tmux-navigator'
+
+"Easy Clip
+Plugin 'svermeulen/vim-easyclip'
+Plugin 'tpope/vim-repeat'
 
 "...All other plugins...
 if iCanHazVundle == 0
@@ -101,7 +108,7 @@ filetype plugin indent on
 syntax enable           
 
 try
-    colorscheme desert
+    colorschem elflord 
 catch
 endtry
 
@@ -123,11 +130,21 @@ set ffs=unix,dos,mac
 
 " }}}
 
-" Misc {{{
+" General {{{
 
 " faster redraw
 set ttyfast                     
+
+" Make backspace work how it should
 set backspace=indent,eol,start
+
+" Hide inactive buffers
+set hidden
+
+" Define leader key to be comma
+let mapleader=","
+
+
 " }}}
 
 " Spaces & Tabs {{{
@@ -143,6 +160,8 @@ set softtabstop=4
 set shiftwidth=4
 set modelines=1
 set autoindent
+set smartindent 
+set wrap 
 " }}}
 
 " UI Layout {{{
@@ -159,6 +178,10 @@ set wildmenu
 
 " higlight matching parenthesis
 set showmatch           
+
+" Always show the status line
+set laststatus=2
+
 " }}}
 
 " Visual Mode Related {{{ 
@@ -169,7 +192,7 @@ vnoremap <silent> * :call VisualSelection('f', '')<CR>
 vnoremap <silent> # :call VisualSelection('b', '')<CR>
 "}}}
 
-" Searching {{{
+" Searching Settings {{{
 
 " ignore case when searching
 set ignorecase          
@@ -179,23 +202,33 @@ set incsearch
 
 " highlight all matches
 set hlsearch            
+
+" Try to be smart about cases
+set smartcase
+
+" For regular expressions
+set magic
+
+
 " }}}
 
 " Folding {{{
-"=== folding ===
 
-" fold based on indent level
+" fold based on markers
 set foldmethod=marker
 
 " max 10 depth
-set foldnestmax=10      
+" set foldnestmax=10      
 
 " don't fold files by default on open
 set foldenable          
+
+"open and close folds with space
 nnoremap <space> za
 
-" start with fold level of 1
-set foldlevelstart=10    
+" start with fold level of 10
+" set foldlevelstart=10    
+
 " }}}
 
 " Moving around, tabs, windows and buffers {{{
@@ -203,7 +236,7 @@ map j gj
 map k gk
 
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
-map <space> /
+"map <space> /
 map <c-space> ?
 
 " Disable highlight when <leader><cr> is pressed
@@ -221,8 +254,11 @@ map <leader>bd :Bclose<cr>:tabclose<cr>gT
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
 
-map <leader>l :bnext<cr>
-map <leader>h :bprevious<cr>
+" Go to last accessed buffer
+map <leader>bl :b#<cr>
+
+map <leader>bn :bnext<cr>
+map <leader>bp :bprevious<cr>
 
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
@@ -250,11 +286,10 @@ try
     set stal=2
 catch
 endtry
-nnoremap B ^
-nnoremap E $
-nnoremap $ <nop>
-nnoremap ^ <nop>
-"nnoremap gV `[v`]
+
+map 0 ^
+map E $
+nnoremap gV `[v`]
 onoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
 xnoremap an :<c-u>call <SID>NextTextObject('a', 'f')<cr>
 onoremap in :<c-u>call <SID>NextTextObject('i', 'f')<cr>
@@ -267,14 +302,13 @@ xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
 
 
 " When you press gv you Ag after the selected text
-vnoremap <silent> gv :call VisualSelection('gv', '')<CR>
+vnoremap <silent> ga :call VisualSelection('gv', '')<CR>
 
 " }}}
 
-" Custom Mappings and Leader Shortcuts {{{
-let mapleader=","
+" Misc custom Mappings and Leader Shortcuts {{{
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
-nnoremap <leader>w :NERDTree<CR>
+nnoremap <leader>w :NERDTreeTabsToggle<CR>
 nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>h :A<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
@@ -283,15 +317,14 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>l :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>s :mksession<CR>
-nnoremap <leader>a :Ag 
+nnoremap <leader>ag :Ag 
 nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 nnoremap <leader>1 :set number!<CR>
 nnoremap <leader>d :Make! 
 vnoremap <leader>y "+y
-vmap v <Plug>(expand_region_expand)
-vmap <C-v> <Plug>(expand_region_shrink)
+"vmap v <Plug>(expand_region_expand)
+"vmap <C-v> <Plug>(expand_region_shrink)
 inoremap jk <esc>
-map 0 ^
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 nmap <M-j> mz:m+<cr>`z
@@ -350,7 +383,10 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
-set laststatus=2
+let g:airline#extensions#bufferline#enabled = 1
+" let g:airline#extensions#tabline#enabled =1
+" let g:airline#extensions#tabline#fnamemod = ':t'
+
 " }}}
 
 " CtrlP {{{
@@ -409,17 +445,8 @@ call unite#custom_source('file_rec/async,file_mru,file,buffer,grep',
 call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 
-let g:unite_source_history_yank_enable = 1
-
-nnoremap <space>b :Unite -quick-match buffer<cr>
-nnoremap <space>p :<C-u>Unite file_rec/async<cr>
-"unite grep
-nnoremap <space>f :<C-u>Unite grep:.<cr>
-nnoremap <space>F :<C-u>Unite grep<CR>
-noremap <space>y :Unite history/yank<cr>
 
 "nnoremap <space>p :call Unite_ctrlp()<cr>
-nnoremap <leader>s :Unite -quick-match buffer<cr>
 
 " Call these custom settings on all unite buffers:
 autocmd FileType unite call s:unite_settings()
@@ -439,20 +466,32 @@ elseif executable('ag')
     let g:unite_source_grep_recursive_oag = ''
     let g:unite_source_grep_encoding = 'utf-8'
 endif
-" "If the platinum searcher is installed
-" if executable('pt')
-"   " Tell unite to use ag for searching
-"   let g:unite_source_grep_command = 'pt'
-" 
-"   " Tell ag.vim to use pt binary
-"   let g:ag_prg="pt"
-" 
-" "If the silver searcher is installed
-" elseif executable('ag')
-"   let g:unite_source_grep_command = 'ag'
-" " Use defaults otherwise
-" endif
 
+let g:unite_source_history_yank_enable = 1
+
+nnoremap <space>b :Unite -quick-match buffer<cr>
+nnoremap <space>p :<C-u>Unite file_rec/async<cr>
+"unite grep
+nnoremap <space>f :<C-u>Unite grep:.<cr>
+nnoremap <space>F :<C-u>Unite grep<CR>
+nnoremap <space>y :Unite history/yank<cr>
+
+" For searching the word in the cursor in the current directory,
+noremap <silent> <Leader>s :Unite grep:.::<C-R><C-w><CR>
+" For searching the word in the cursor in the current buffer,
+noremap <silent> <Leader>sf :Unite grep:%::<C-r><C-w><CR>
+" For searching the word in the cursor in all opened buffers
+noremap <silent> <Leader>sa :Unite grep:$buffers::<C-r><C-w><CR>
+
+
+" }}}
+
+" Pydiction {{{
+let g:pydiction_location = $HOME.'/.vim/bundle/Pydiction/complete-dict'
+" }}}
+
+" EasyClip {{{
+set clipboard=unnamed
 " }}}
 
 " Launch Config {{{
@@ -479,11 +518,16 @@ augroup END
 " }}}
 
 " Backups {{{
-set backup 
-set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
-set backupskip=/tmp/*,/private/tmp/* 
-set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
-set writebackup
+" In case I want to use backups at some point
+" set backup 
+" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+" set backupskip=/tmp/*,/private/tmp/* 
+" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+" set writebackup
+"" Turn backup off, since most stuff is in SVN, git et.c anyway...
+set nobackup
+set nowb
+set noswapfile
 " }}}
 
 " python {{{
@@ -537,8 +581,14 @@ map <leader>ss :setlocal spell!<cr>
 " Shortcuts using <leader>
 map <leader>sn ]s
 map <leader>sp [s
-map <leader>sa zg
+map <leader>se zg
 map <leader>s? z=
+" }}}
+
+" Mouse {{{
+if has('mouse')
+    set mouse=a
+endif
 " }}}
 
 " Custom Functions {{{

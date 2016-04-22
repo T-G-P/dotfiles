@@ -1,8 +1,10 @@
 " Tobias Perelstein
-vnoremap <silent> ga :call VisualSelection('gv', '')<CR>
-vnoremap <silent> ga :call VisualSelection('gv', '')<CR>
+"===================
 
-" Heaviliy inspired by :
+" Heaviliy inspired by dougblack and amix. Big thanks to shougo for unite.vim  
+" CtrlP is configured as a backup for unite. Big thanks to kien for that
+" awesome plugin
+
 " https://gist.github.com/nongio/87af49b85ce898d3428e
 " https://github.com/j1z0/vim-config/blob/master/vimrc
 " https://github.com/johnhamelink/dotfiles/blob/master/nvim/init.vim

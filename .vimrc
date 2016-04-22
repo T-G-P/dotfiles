@@ -416,6 +416,9 @@ let g:syntastic_ignore_files = ['.java$']
 " YouCompleteMe {{{
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_server_python_interpreter = 'python'
+
+"jump to definition or declaration 
+nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
 
 " Ag {{{

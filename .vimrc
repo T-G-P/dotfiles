@@ -132,6 +132,9 @@ set encoding=utf8
 " Use Unix as the standard file type
 set ffs=unix,dos,mac
 
+" Set the highlight menu colors
+" highlight Pmenu ctermfg=15 ctermbg=0 guifg=#ffffff guibg=#000000
+
 " }}}
 
 " General {{{
@@ -412,6 +415,7 @@ let g:syntastic_ignore_files = ['.java$']
 
 " YouCompleteMe {{{
 let g:ycm_autoclose_preview_window_after_completion=1
+let g:ycm_server_python_interpreter = 'python'
 " }}}
 
 " Ag {{{

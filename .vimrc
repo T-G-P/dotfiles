@@ -41,6 +41,7 @@ Plugin 'VundleVim/Vundle.vim'
 "search and file system related
 Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/neomru.vim'
+Plugin 'Shougo/neoyank.vim'
 Plugin 'Shougo/unite.vim'
 Plugin 'rking/ag.vim'
 Plugin 'kien/ctrlp.vim' 
@@ -107,6 +108,8 @@ filetype plugin indent on
 " enable syntax processing
 syntax enable           
 
+set t_Co=256
+
 try
     colorschem elflord 
 catch
@@ -118,7 +121,6 @@ set background=dark
 if has("gui_running")
     set guioptions-=T
     set guioptions-=e
-    set t_Co=256
     set guitablabel=%M\ %t
 endif
 
@@ -446,7 +448,6 @@ call unite#filters#matcher_default#use(['matcher_fuzzy'])
 call unite#filters#sorter_default#use(['sorter_rank'])
 
 
-"nnoremap <space>p :call Unite_ctrlp()<cr>
 
 " Call these custom settings on all unite buffers:
 autocmd FileType unite call s:unite_settings()
@@ -469,8 +470,15 @@ endif
 
 let g:unite_source_history_yank_enable = 1
 
+"View all buffers with unite 
 nnoremap <space>b :Unite -quick-match buffer<cr>
-nnoremap <space>p :<C-u>Unite file_rec/async<cr>
+
+"Scan the working directory like ctrlp
+nnoremap <space>p :call Unite_ctrlp()<cr>
+
+"Get the most recently used file list
+nnoremap <space>mr :Unite file_mru<cr>
+"nnoremap <space>p :<C-u>Unite file_rec/async<cr>
 "unite grep
 nnoremap <space>f :<C-u>Unite grep:.<cr>
 nnoremap <space>F :<C-u>Unite grep<CR>

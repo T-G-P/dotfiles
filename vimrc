@@ -417,7 +417,7 @@ let g:syntastic_ignore_files = ['.java$']
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_server_python_interpreter = 'python'
 
-"jump to declaration or definition 
+"jump to declaration or definition
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
 

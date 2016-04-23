@@ -93,6 +93,10 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'svermeulen/vim-easyclip'
 Plugin 'tpope/vim-repeat'
 
+"Vim tomorrow theme
+Plugin 'chriskempson/vim-tomorrow-theme'
+
+
 "...All other plugins...
 if iCanHazVundle == 0
     echo "Installing Plugins, please ignore key map error messages"
@@ -113,7 +117,7 @@ syntax enable
 set t_Co=256
 
 try
-    colorschem elflord 
+    colorscheme Tomorrow-Night-Bright
 catch
 endtry
 

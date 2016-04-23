@@ -117,7 +117,7 @@ syntax enable
 set t_Co=256
 
 try
-    colorscheme Tomorrow-Night-Bright
+    colorscheme Tomorrow-Night-Eighties
 catch
 endtry
 
@@ -271,12 +271,15 @@ map <leader>bl :b#<cr>
 map <leader>bn :bnext<cr>
 map <leader>bp :bprevious<cr>
 
+" Go to buffer by name or number
+map <leader>bb :b<Space>
+
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
 map <leader>tc :tabclose<cr>
-map <leader>tm :tabmove 
-map <leader>t<leader> :tabnext 
+map <leader>tm :tabmove
+map <leader>t<leader> :tabnext
 
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1

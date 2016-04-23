@@ -57,7 +57,6 @@ Plugin 'tpope/vim-fugitive'
 
 "python sytax checker
 Plugin 'nvie/vim-flake8'
-Plugin 'vim-scripts/Pydiction'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
 
@@ -66,6 +65,7 @@ Plugin 'Valloric/YouCompleteMe'
 Plugin 'klen/rope-vim'
 Plugin 'ervandew/supertab'
 Plugin 'davidhalter/jedi-vim'
+Plugin 'vim-scripts/Pydiction'
 
 ""code folding
 Plugin 'tmhedberg/SimpylFold'
@@ -417,7 +417,7 @@ let g:syntastic_ignore_files = ['.java$']
 let g:ycm_autoclose_preview_window_after_completion=1
 let g:ycm_server_python_interpreter = 'python'
 
-"jump to definition or declaration 
+"jump to declaration or definition 
 nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
 
@@ -586,6 +586,7 @@ autocmd FileType python set autoindent
 
 "Folding based on indentation:
 autocmd FileType python set foldmethod=indent
+autocmd FileType python set nofoldenable
 
 "----------Stop python PEP 8 stuff--------------
 " }}}

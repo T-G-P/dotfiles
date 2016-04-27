@@ -487,7 +487,8 @@ endif
 let g:unite_source_history_yank_enable = 1
 
 "View all buffers with unite 
-nnoremap <space>b :Unite -quick-match buffer<cr>
+" nnoremap <space>b :Unite -quick-match buffer<cr>
+nnoremap <space>b :Unite -start-insert buffer<cr>
 
 "Scan the working directory like ctrlp
 nnoremap <space>p :call Unite_ctrlp()<cr>

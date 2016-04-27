@@ -60,3 +60,6 @@ bindkey '^E' end-of-line
 
 # Kills delay when entering vi mode
 export KEYTIMEOUT=1
+
+# Setting the go path
+export GOPATH=~/golang/packages

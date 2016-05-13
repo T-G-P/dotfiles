@@ -489,7 +489,7 @@ nnoremap <space>b :Unite -start-insert buffer<cr>
 nnoremap <space>p :call Unite_ctrlp()<cr>
 
 "Get the most recently used file list
-nnoremap <space>mr :Unite file_mru<cr>
+nnoremap <space>mr :Unite -start-insert file_mru<cr>
 "unite grep settings
 "
 "Search all files for text in current directory recursively

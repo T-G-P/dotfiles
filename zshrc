@@ -63,3 +63,7 @@ export KEYTIMEOUT=1
 
 # Setting the go path
 export GOPATH=~/golang/packages
+export PATH=$PATH:~/golang/packages/bin
+
+# Setting GTK3 var for tux guitar
+export SWT_GTK3=0 

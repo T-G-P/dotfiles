@@ -235,7 +235,7 @@ set foldmethod=marker
 set foldenable          
 
 "open and close folds with space
-nnoremap <space> za
+"nnoremap <space> za
 
 " start with fold level of 10
 " set foldlevelstart=10    
@@ -249,9 +249,6 @@ map k gk
 " Map <Space> to / (search) and Ctrl-<Space> to ? (backwards search)
 "map <space> /
 map <c-space> ?
-
-" Disable highlight when <leader><cr> is pressed
-map <silent> <leader><cr> :noh<cr>
 
 " Smart way to move between windows
 map <C-j> <C-W>j
@@ -315,24 +312,21 @@ onoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
 xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
 
 
-" When you press gv you Ag after the selected text
-vnoremap <silent> ga :call VisualSelection('gv', '')<CR>
+" When you press ga you Ag after the selected text
+vnoremap <silent> ga :call VisualSelection('ga', '')<CR>
 
 " }}}
 
 " Misc custom Mappings and Leader Shortcuts {{{
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
-nnoremap <leader>w :NERDTreeTabsToggle<CR>
-nnoremap <leader>u :GundoToggle<CR>
 nnoremap <leader>h :A<CR>
 nnoremap <leader>ev :vsp $MYVIMRC<CR>
 nnoremap <leader>ez :vsp ~/.zshrc<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>l :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
-nnoremap <leader>s :mksession<CR>
+nnoremap <leader>ms :mksession<CR>
 nnoremap <leader>ag :Ag 
-nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 nnoremap <leader>1 :set number!<CR>
 nnoremap <leader>d :Make! 
 vnoremap <leader>y "+y
@@ -387,10 +381,6 @@ map <leader>pp :setlocal paste!<cr>
 " }}}
 
 " Vim Airline{{{
-"set encoding=utf-8
-"python from powerline.vim import setup as powerline_setup
-"python powerline_setup()
-"python del powerline_setup
 let g:airline#extensions#tabline#left_sep = ' '
 let g:airline#extensions#tabline#left_alt_sep = '|'
 let g:airline_left_sep = ''
@@ -413,11 +403,18 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 
 " NERDTree {{{
 let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
+nnoremap <leader>w :NERDTreeTabsToggle<CR>
+" }}}
+"
+" Gundo {{{
+nnoremap <leader>u :GundoToggle<CR>
 " }}}
 
 " Syntastic {{{
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_ignore_files = ['.java$']
+
+nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 " }}}
 
 " YouCompleteMe {{{
@@ -430,10 +427,8 @@ nnoremap <leader>jd :YcmCompleter GoTo<CR>
 
 " Ag {{{
 
+"Start ag from project root
 let g:ag_working_path_mode="r"
-if executable('pt')
-    let g:ag_prg="pt"
-endif
 " }}}
 
 " Unite {{{
@@ -495,10 +490,15 @@ nnoremap <space>p :call Unite_ctrlp()<cr>
 
 "Get the most recently used file list
 nnoremap <space>mr :Unite file_mru<cr>
-"nnoremap <space>p :<C-u>Unite file_rec/async<cr>
-"unite grep
+"unite grep settings
+"
+"Search all files for text in current directory recursively
 nnoremap <space>f :<C-u>Unite grep:.<cr>
+
+"Search all files for text and specify directory path
 nnoremap <space>F :<C-u>Unite grep<CR>
+
+"Search all yank history
 nnoremap <space>y :Unite history/yank<cr>
 
 " For searching the word in the cursor in the current directory,
@@ -705,7 +705,7 @@ function! VisualSelection(direction, extra_filter) range
 
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
-    elseif a:direction == 'gv'
+    elseif a:direction == 'ga'
         call CmdLine("Ag \"" . l:pattern . "\" " )
     elseif a:direction == 'replace'
         call CmdLine("%s" . '/'. l:pattern . '/')

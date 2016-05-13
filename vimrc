@@ -84,7 +84,6 @@ Plugin 'tpope/vim-surround'
 
 " Vim Airline
 Plugin 'vim-airline/vim-airline'
-Plugin 'bling/vim-bufferline'
 
 "Vim Tmux Navigator
 Plugin 'christoomey/vim-tmux-navigator'
@@ -387,9 +386,10 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline#extensions#bufferline#enabled = 1
-" let g:airline#extensions#tabline#enabled =1
-" let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#enabled = 1
+let g:airline#extensions#tabline#fnamemod = ':t'
+let g:airline#extensions#tabline#buffer_nr_show = 1
 
 " }}}
 

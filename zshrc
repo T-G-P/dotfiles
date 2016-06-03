@@ -14,7 +14,8 @@ if [[ -s "${ZDOTDIR:-$HOME}/.zprezto/init.zsh" ]]; then
     prompt skwp
 fi
 
-# Customize to your needs...
+# Get local ip for misc tasks
+localip=$(ip addr | grep 'state UP' -A2 | tail -n1 | awk '{print $2}' | cut -f1  -d'/')
 
 # Pacman aliases
 alias pacupg='sudo pacman -Syu'     # Synchronize with repositories and then upgrade packages that are out of date on the local system.
@@ -41,6 +42,12 @@ alias pacmir='sudo pacman -Syy'                    # Force refresh of all packag
 
 # Force tmux to launch with 256 color support
 alias tmux='tmux -2'
+
+# brutal doom easy aliases
+alias brutalgz='gzdoom -file /usr/games/gzdoom/brutalv20b.pk3 "$@"'
+alias brutalz='zandronum -file /usr/games/gzdoom/brutalv20b.pk3 "$@"'
+alias brutalserver='zandronum-server -file /usr/games/gzdoom/brutalv20b.pk3 -host 3 -skill 4'
+alias brutalconnect='brutalz -connect $localip:10666'
 
 # Key beindings
 # Enable vi mode

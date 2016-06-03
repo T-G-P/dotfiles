@@ -62,10 +62,10 @@ Plugin 'scrooloose/syntastic'
 
 "auto-completion stuff
 Plugin 'Valloric/YouCompleteMe'
-Plugin 'klen/rope-vim'
-Plugin 'ervandew/supertab'
-Plugin 'davidhalter/jedi-vim'
-Plugin 'vim-scripts/Pydiction'
+"Plugin 'klen/rope-vim'
+"Plugin 'ervandew/supertab'
+"Plugin 'davidhalter/jedi-vim'
+"Plugin 'vim-scripts/Pydiction'
 
 ""code folding
 Plugin 'tmhedberg/SimpylFold'

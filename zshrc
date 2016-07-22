@@ -46,8 +46,8 @@ alias tmux='tmux -2'
 # brutal doom easy aliases
 alias brutalgz='gzdoom -file /usr/games/gzdoom/brutalv20b.pk3 "$@"'
 alias brutalz='zandronum -file /usr/games/gzdoom/brutalv20b.pk3 "$@"'
-alias brutalserver='zandronum-server -file /usr/games/gzdoom/brutalv20b.pk3 -host 3 -skill 4'
-alias brutalconnect='brutalz -connect $localip:10666'
+alias brutalserver='zandronum-server -file /usr/games/gzdoom/brutalv20b.pk3 -host 10 -skill 4 -private +sv_forcepassword true +sv_password callmemurphy +sv_hostname NuclearGrave +TeamDamage 0.00'
+alias brutalconnect='brutalz -connect $localip:10666 +CL_Password "callmemurphy"'
 
 # Key beindings
 # Enable vi mode
@@ -74,3 +74,11 @@ export PATH=$PATH:~/golang/packages/bin
 
 # Setting GTK3 var for tux guitar
 export SWT_GTK3=0 
+
+# Set vim to be default editor
+export EDITOR=vim
+
+# Change default LS_COLORS colors for ls and tab completion
+# https://github.com/trapd00r/LS_COLORS
+eval $(dircolors -b $HOME/.dircolors)
+zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}

@@ -55,6 +55,9 @@ Plugin 'yegappan/mru'
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
 
+" Vim abolish
+Plugin 'tpope/vim-abolish'
+
 "python sytax checker
 Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
@@ -90,6 +93,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 
 "Easy Clip
 Plugin 'svermeulen/vim-easyclip'
+" Plugin 'kana/vim-fakeclip'
 Plugin 'tpope/vim-repeat'
 
 "Vim tomorrow theme
@@ -314,6 +318,15 @@ xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
 " When you press ga you Ag after the selected text
 vnoremap <silent> ga :call VisualSelection('ga', '')<CR>
 
+" Return to last edit position when opening files (You want this!)
+autocmd BufReadPost *
+     \ if line("'\"") > 0 && line("'\"") <= line("$") |
+     \   exe "normal! g`\"" |
+     \ endif
+
+" Remember info about open buffers on close
+set viminfo^=%
+
 " }}}
 
 " Misc custom Mappings and Leader Shortcuts {{{
@@ -329,6 +342,7 @@ nnoremap <leader>ag :Ag
 nnoremap <leader>1 :set number!<CR>
 nnoremap <leader>d :Make! 
 vnoremap <leader>y "+y
+nnoremap <leader>sw :w !sudo tee %<CR>
 "vmap v <Plug>(expand_region_expand)
 "vmap <C-v> <Plug>(expand_region_shrink)
 inoremap jk <esc>
@@ -413,6 +427,10 @@ nnoremap <leader>u :GundoToggle<CR>
 " Syntastic {{{
 let g:syntastic_python_flake8_args='--ignore=E501'
 let g:syntastic_ignore_files = ['.java$']
+let g:syntastic_python_python_exec = '/usr/bin/python2'
+let g:syntastic_python_flake8_exec = '/usr/bin/python2'
+
+
 
 nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 " }}}
@@ -516,7 +534,7 @@ let g:pydiction_location = $HOME.'/.vim/bundle/Pydiction/complete-dict'
 " }}}
 
 " EasyClip {{{
-set clipboard=unnamed
+set clipboard=unnamedplus
 " }}}
 
 " Launch Config {{{

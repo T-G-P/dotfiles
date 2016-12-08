@@ -1,7 +1,7 @@
 " Tobias Perelstein
 "===================
 
-" Heaviliy inspired by dougblack and amix. Big thanks to shougo for unite.vim  
+" Heaviliy inspired by dougblack and amix. Big thanks to shougo for unite.vim
 " CtrlP is configured as a backup for unite. Big thanks to kien for that
 " awesome plugin
 
@@ -14,10 +14,10 @@
 " Vundle {{{
 
 " required for Vundle
-set nocompatible                                        
+set nocompatible
 
 " required for Vundle
-filetype off                                            
+filetype off
 
 " setting up vundle and add Vundle to runtime path
 
@@ -33,12 +33,12 @@ endif
 set rtp+=~/.vim/bundle/vundle/
 
 " start Vundle
-call vundle#begin()                                     
+call vundle#begin()
 " }}}
 
 " Plugins {{{
 " let Vundle manage Vundle
-Plugin 'VundleVim/Vundle.vim'                           
+Plugin 'gmarik/vundle'
 
 "search and file system related
 Plugin 'Shougo/vimproc.vim'
@@ -46,11 +46,13 @@ Plugin 'Shougo/neomru.vim'
 Plugin 'Shougo/neoyank.vim'
 Plugin 'Shougo/unite.vim'
 Plugin 'rking/ag.vim'
-Plugin 'kien/ctrlp.vim' 
+Plugin 'kien/ctrlp.vim'
+Plugin 'karlbright/qfdo.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
+" Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
-Plugin 'yegappan/mru'
+" Plugin 'yegappan/mru'
 
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
@@ -58,20 +60,29 @@ Plugin 'tpope/vim-fugitive'
 " Vim abolish
 Plugin 'tpope/vim-abolish'
 
-"python sytax checker
-Plugin 'nvie/vim-flake8'
+" Python sytax checker
+" Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
 
-"auto-completion stuff
-Plugin 'Valloric/YouCompleteMe'
-"Plugin 'klen/rope-vim'
-"Plugin 'ervandew/supertab'
-"Plugin 'davidhalter/jedi-vim'
-"Plugin 'vim-scripts/Pydiction'
+" Auto-completion stuff
+Plugin 'craigemery/vim-autotag'
+Plugin 'Rip-Rip/clang_complete'
+" Plugin 'justmao945/vim-clang'
+Plugin 'Shougo/neocomplete.vim'
+Plugin 'Shougo/neoinclude.vim'
+" Plugin 'ajh17/VimCompletesMe'
+" Plugin 'Valloric/YouCompleteMe'
+" Plugin 'klen/rope-vim'
+" Plugin 'ervandew/supertab'
+" Plugin 'davidhalter/jedi-vim'
+" Plugin 'vim-scripts/Pydiction'
 
-""code folding
-Plugin 'tmhedberg/SimpylFold'
+" Debugging
+" Plugin 'vim-scripts/Conque-GDB'
+
+" Code folding
+"Plugin 'tmhedberg/SimpylFold'
 
 " Visualize undo tree
 Plugin 'vim-scripts/Gundo'
@@ -81,6 +92,9 @@ Plugin 'easymotion/vim-easymotion'
 
 " Multiple cursors
 Plugin 'terryma/vim-multiple-cursors'
+
+" Tabular
+Plugin 'godlygeek/tabular'
 
 " Vim Surround
 Plugin 'tpope/vim-surround'
@@ -93,11 +107,7 @@ Plugin 'christoomey/vim-tmux-navigator'
 
 "Easy Clip
 Plugin 'svermeulen/vim-easyclip'
-" Plugin 'kana/vim-fakeclip'
 Plugin 'tpope/vim-repeat'
-
-"Vim tomorrow theme
-Plugin 'chriskempson/vim-tomorrow-theme'
 
 
 "...All other plugins...
@@ -107,15 +117,15 @@ if iCanHazVundle == 0
     :PluginInstall
 endif
 " stop Vundle
-call vundle#end()                                       
+call vundle#end()
 
-" let plugins change indentation 
-filetype plugin indent on                               
+" let plugins change indentation
+filetype plugin indent on
 " }}}
 
 " Colors {{{
 " enable syntax processing
-syntax enable           
+syntax enable
 
 set t_Co=256
 
@@ -145,9 +155,10 @@ set ffs=unix,dos,mac
 " }}}
 
 " General {{{
+set shell=/bin/bash
 
 " faster redraw
-set ttyfast                     
+set ttyfast
 
 " Make backspace work how it should
 set backspace=indent,eol,start
@@ -164,41 +175,46 @@ let mapleader=","
 " Spaces & Tabs {{{
 
 " 4 space tab
-set tabstop=4           
+set tabstop=3
 
 " use spaces for tabs
-set expandtab           
+set expandtab
 
-" 4 space tab
-set softtabstop=4       
-set shiftwidth=4
+" 3 space tab
+set softtabstop=3
+set shiftwidth=3
 set modelines=1
 set autoindent
-set smartindent 
-set wrap 
+set smartindent
+set cindent
+set cino+=(0
+set wrap
+
+set list
+set listchars=tab:>-
 " }}}
 
 " UI Layout {{{
 
 " show line numbers
-set number             
+set number
 
 " show command in bottom bar
-set showcmd             
+set showcmd
 
 " highlight current line
-set nocursorline          
+set nocursorline
 set wildmenu
 
 " higlight matching parenthesis
-set showmatch           
+set showmatch
 
 " Always show the status line
 set laststatus=2
 
 " }}}
 
-" Visual Mode Related {{{ 
+" Visual Mode Related {{{
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -209,13 +225,13 @@ vnoremap <silent> # :call VisualSelection('b', '')<CR>
 " Searching Settings {{{
 
 " ignore case when searching
-set ignorecase          
+set ignorecase
 
 " search as characters are entered
-set incsearch           
+set incsearch
 
 " highlight all matches
-set hlsearch            
+set hlsearch
 
 " Try to be smart about cases
 set smartcase
@@ -232,16 +248,16 @@ set magic
 set foldmethod=marker
 
 " max 10 depth
-" set foldnestmax=10      
+" set foldnestmax=10
 
 " don't fold files by default on open
-set foldenable          
+set foldenable
 
 "open and close folds with space
 "nnoremap <space> za
 
 " start with fold level of 10
-" set foldlevelstart=10    
+" set foldlevelstart=10
 
 " }}}
 
@@ -260,7 +276,7 @@ map <C-h> <C-W>h
 map <C-l> <C-W>l
 
 " Close the current buffer
-map <leader>bd :Bclose<cr>:tabclose<cr>gT
+map <leader>bd :Bclose<cr>
 
 " Close all the buffers
 map <leader>ba :bufdo bd<cr>
@@ -281,6 +297,9 @@ map <leader>tc :tabclose<cr>
 map <leader>tm :tabmove
 map <leader>t<leader> :tabnext
 
+" Zoom pane from split
+map <leader>z :on<cr>
+
 " Let 'tl' toggle between this and the last accessed tab
 let g:lasttab = 1
 nmap <Leader>tl :exe "tabn ".g:lasttab<CR>
@@ -291,10 +310,13 @@ au TabLeave * let g:lasttab = tabpagenr()
 " Super useful when editing files in the same directory
 map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 
+" Opens a new buffer with the current buffer's path
+map <leader>be :e <c-r>=expand("%:p:h")<cr>/
+
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers 
+" Specify the behavior when switching between buffers
 try
     set switchbuf=useopen,usetab,newtab
     set stal=2
@@ -317,6 +339,8 @@ xnoremap il :<c-u>call <SID>NextTextObject('i', 'F')<cr>
 
 " When you press ga you Ag after the selected text
 vnoremap <silent> ga :call VisualSelection('ga', '')<CR>
+" When you press qf at a visual selection, can do a project wide find/replace
+vnoremap <silent> qf :call VisualSelection('qf', '')<CR>
 
 " Return to last edit position when opening files (You want this!)
 autocmd BufReadPost *
@@ -332,15 +356,17 @@ set viminfo^=%
 " Misc custom Mappings and Leader Shortcuts {{{
 nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 nnoremap <leader>h :A<CR>
-nnoremap <leader>ev :vsp $MYVIMRC<CR>
-nnoremap <leader>ez :vsp ~/.zshrc<CR>
+nnoremap <leader>ev :e $MYVIMRC<CR>
+nnoremap <leader>ez :e ~/.zshrc<CR>
+nnoremap <leader>ev :e $MYVIMRC<CR>
+nnoremap <leader>et :e ~/.tmux.conf<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>l :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>ms :mksession<CR>
-nnoremap <leader>ag :Ag 
+nnoremap <leader>ag :Ag
 nnoremap <leader>1 :set number!<CR>
-nnoremap <leader>d :Make! 
+nnoremap <leader>d :Make!
 vnoremap <leader>y "+y
 nnoremap <leader>sw :w !sudo tee %<CR>
 "vmap v <Plug>(expand_region_expand)
@@ -425,10 +451,15 @@ nnoremap <leader>u :GundoToggle<CR>
 " }}}
 
 " Syntastic {{{
-let g:syntastic_python_flake8_args='--ignore=E501'
+let g:syntastic_python_flake8_args='--ignore=E501,E111,E114'
+let g:syntastic_cpp_compiler_options = ' -std=c++11'
 let g:syntastic_ignore_files = ['.java$']
-let g:syntastic_python_python_exec = '/usr/bin/python2'
-let g:syntastic_python_flake8_exec = '/usr/bin/python2'
+let g:syntastic_cpp_check_header = 1
+let g:syntastic_c_remove_include_errors = 1
+let g:syntastic_quiet_messages = {"regex": 'No such file or directory'}
+
+
+
 
 
 
@@ -436,11 +467,97 @@ nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 " }}}
 
 " YouCompleteMe {{{
-let g:ycm_autoclose_preview_window_after_completion=1
-let g:ycm_server_python_interpreter = 'python'
+" let g:ycm_autoclose_preview_window_after_completion=1
+" let g:ycm_server_python_interpreter = 'python'
+"
+" "jump to declaration or definition
+" nnoremap <leader>jd :YcmCompleter GoTo<CR>
+" }}}
 
-"jump to declaration or definition
-nnoremap <leader>jd :YcmCompleter GoTo<CR>
+" NeoComplete and clang_complete{{{
+let g:clang_library_path = '/usr/lib/llvm-3.5/lib'
+" let g:clang_user_options="-std=c++0x"
+" let g:clang_jumpto_declaration_key='<Leader>jd'
+let g:acp_enableAtStartup = 0
+" Use neocomplete.
+let g:neocomplete#enable_at_startup = 1
+" Use smartcase.
+let g:neocomplete#enable_smart_case = 1
+" Set minimum syntax keyword length.
+let g:neocomplete#sources#syntax#min_keyword_length = 3
+let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+
+" Define dictionary.
+let g:neocomplete#sources#dictionary#dictionaries = {
+    \ 'default' : '',
+    \ 'vimshell' : $HOME.'/.vimshell_hist',
+    \ 'scheme' : $HOME.'/.gosh_completions'
+        \ }
+
+" Define keyword.
+if !exists('g:neocomplete#keyword_patterns')
+    let g:neocomplete#keyword_patterns = {}
+endif
+let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+
+" Plugin key-mappings.
+inoremap <expr><C-g>     neocomplete#undo_completion()
+inoremap <expr><C-l>     neocomplete#complete_common_string()
+
+" Recommended key-mappings.
+" <CR>: close popup and save indent.
+inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+function! s:my_cr_function()
+  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+  " For no inserting <CR> key.
+  "return pumvisible() ? "\<C-y>" : "\<CR>"
+endfunction
+" <TAB>: completion.
+inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+" <C-h>, <BS>: close popup and delete backword char.
+inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+" Close popup by <Space>.
+"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+
+" AutoComplPop like behavior.
+"let g:neocomplete#enable_auto_select = 1
+
+" Shell like behavior(not recommended).
+"set completeopt+=longest
+"let g:neocomplete#enable_auto_select = 1
+"let g:neocomplete#disable_auto_complete = 1
+"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+
+" Enable omni completion.
+autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+
+autocmd CompleteDone * pclose
+
+" Enable heavy omni completion.
+if !exists('g:neocomplete#sources#omni#input_patterns')
+  let g:neocomplete#sources#omni#input_patterns = {}
+endif
+"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+
+" For perlomni.vim setting.
+" https://github.com/c9s/perlomni.vim
+let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
+" }}}
+
+" Tags {{{
+set tags=./tags;/,tags;/
+" set tags=./tags,tags,gtest_tags,c++_tags;$HOME/projects
+inoremap <c-x><c-]> <c-]>
+let Gtags_Auto_Update = 1
+nnoremap <leader>jd :GtagsCursor<CR>
+set csprg=gtags-cscope
 " }}}
 
 " Ag {{{
@@ -483,14 +600,14 @@ autocmd FileType unite call s:unite_settings()
 
 " unite grep using the_platinum_searcher
 if executable('pt')
-    let g:unite_source_rec_async_command = 'pt --nocolor --nogroup -g .'
+    let g:unite_source_rec_async_command = ['pt', '--nocolor', '--nogroup', '-g', '.']
     let g:unite_source_grep_command = 'pt'
     let g:unite_source_grep_default_opts = '--nogroup --nocolor'
     let g:unite_source_grep_recursive_opt = ''
     let g:unite_source_grep_encoding = 'utf-8'
 
 elseif executable('ag')
-    let g:unite_source_rec_async_command = 'ag --nocolor --nogroup -g .'
+    let g:unite_source_rec_async_command = ['ag', '--nocolor', '--nogroup', '-g', '.']
     let g:unite_source_grep_command = 'ag'
     let g:unite_source_grep_default_oags = '--nogroup --nocolor'
     let g:unite_source_grep_recursive_oag = ''
@@ -499,7 +616,7 @@ endif
 
 let g:unite_source_history_yank_enable = 1
 
-"View all buffers with unite 
+"View all buffers with unite
 " nnoremap <space>b :Unite -quick-match buffer<cr>
 nnoremap <space>b :Unite -start-insert buffer<cr>
 
@@ -530,19 +647,29 @@ noremap <silent> <Leader>sa :Unite grep:$buffers::<C-r><C-w><CR>
 " }}}
 
 " Pydiction {{{
-let g:pydiction_location = $HOME.'/.vim/bundle/Pydiction/complete-dict'
+" let g:pydiction_location = $HOME.'/.vim/bundle/Pydiction/complete-dict'
 " }}}
 
 " EasyClip {{{
 set clipboard=unnamedplus
 " }}}
 
+" Conque GDB{{{
+" 1: strip color after 200 lines, 2: always with color
+" let g:ConqueTerm_Color = 2
+" " close conque when program ends running
+" let g:ConqueTerm_CloseOnEnd = 1
+" " display warning messages if conqueTerm is configured incorrectly
+" let g:ConqueTerm_StartMessages = 0
+" }}}
+
 " Launch Config {{{
-runtime! debian.vim
+" runtime! debian.vim
 set nocompatible
+" }}}
 
 " MacVim {{{
-set guioptions-=r 
+set guioptions-=r
 set guioptions-=L
 " }}}
 
@@ -550,7 +677,7 @@ set guioptions-=L
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb :call <SID>StripTrailingWhitespaces()
+    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb,*.c,*.cpp,*.h :call <SID>StripTrailingWhitespaces()
     autocmd BufEnter *.cls setlocal filetype=java
     autocmd BufEnter *.zsh-theme setlocal filetype=zsh
     autocmd BufEnter Makefile setlocal noexpandtab
@@ -562,10 +689,10 @@ augroup END
 
 " Backups {{{
 " In case I want to use backups at some point
-" set backup 
-" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
-" set backupskip=/tmp/*,/private/tmp/* 
-" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+" set backup
+" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" set backupskip=/tmp/*,/private/tmp/*
+" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 " set writebackup
 "" Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -686,7 +813,7 @@ endfunction
 " Build the ctrlp function, using projectroot to define the
 " working directory.
 function! Unite_ctrlp()
-    execute ':Unite  -buffer-name=files -start-insert file_rec/async'
+    execute ':Unite  -buffer-name=files file -start-insert file_rec/async'
 endfunction
 
 function! s:unite_settings()
@@ -712,7 +839,7 @@ function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
-endfunction 
+endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
@@ -725,6 +852,9 @@ function! VisualSelection(direction, extra_filter) range
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'ga'
         call CmdLine("Ag \"" . l:pattern . "\" " )
+    elseif a:direction == 'qf'
+        call CmdLine("Ag \"" . l:pattern . "\" " )
+        call CmdLine("Qfdo s" . '/'. l:pattern . '/')
     elseif a:direction == 'replace'
         call CmdLine("%s" . '/'. l:pattern . '/')
     elseif a:direction == 'f'
@@ -767,5 +897,4 @@ endfunction
 
 " }}}
 
-" vim:foldmethod=marker:foldlevel=0
-
+"

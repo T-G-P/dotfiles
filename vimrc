@@ -1,9 +1,7 @@
 " Tobias Perelstein
 "===================
 
-" Heaviliy inspired by dougblack and amix. Big thanks to shougo for unite.vim
-" CtrlP is configured as a backup for unite. Big thanks to kien for that
-" awesome plugin
+" Heaviliy inspired by dougblack and amix. 
 
 " https://gist.github.com/nongio/87af49b85ce898d3428e
 " https://github.com/j1z0/vim-config/blob/master/vimrc
@@ -14,10 +12,10 @@
 " Vundle {{{
 
 " required for Vundle
-set nocompatible
+set nocompatible                                        
 
 " required for Vundle
-filetype off
+filetype off                                            
 
 " setting up vundle and add Vundle to runtime path
 
@@ -32,11 +30,13 @@ if !filereadable(vundle_readme)
 endif
 set rtp+=~/.vim/bundle/vundle/
 
-" start Vundle
-call vundle#begin()
 " }}}
 
 " Plugins {{{
+
+" start Vundle
+call vundle#begin()                                     
+
 " let Vundle manage Vundle
 Plugin 'gmarik/vundle'
 
@@ -46,13 +46,12 @@ Plugin 'Shougo/neomru.vim'
 Plugin 'Shougo/neoyank.vim'
 Plugin 'Shougo/unite.vim'
 Plugin 'rking/ag.vim'
-Plugin 'kien/ctrlp.vim'
+Plugin 'kien/ctrlp.vim' 
 Plugin 'karlbright/qfdo.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
 " Plugin 'JazzCore/ctrlp-cmatcher'
 Plugin 'scrooloose/nerdtree'
 Plugin 'jistr/vim-nerdtree-tabs'
-" Plugin 'yegappan/mru'
 
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
@@ -61,37 +60,25 @@ Plugin 'tpope/vim-fugitive'
 Plugin 'tpope/vim-abolish'
 
 " Python sytax checker
-" Plugin 'nvie/vim-flake8'
 Plugin 'vim-scripts/indentpython.vim'
 Plugin 'scrooloose/syntastic'
 
 " Auto-completion stuff
-Plugin 'craigemery/vim-autotag'
+" Plugin 'craigemery/vim-autotag'
 Plugin 'Rip-Rip/clang_complete'
-" Plugin 'justmao945/vim-clang'
-Plugin 'Shougo/neocomplete.vim'
+" Plugin 'Shougo/neocomplete.vim'
 Plugin 'Shougo/neoinclude.vim'
-" Plugin 'ajh17/VimCompletesMe'
 " Plugin 'Valloric/YouCompleteMe'
-" Plugin 'klen/rope-vim'
-" Plugin 'ervandew/supertab'
-" Plugin 'davidhalter/jedi-vim'
-" Plugin 'vim-scripts/Pydiction'
+Plugin 'davidhalter/jedi-vim'
 
 " Debugging
 " Plugin 'vim-scripts/Conque-GDB'
-
-" Code folding
-"Plugin 'tmhedberg/SimpylFold'
 
 " Visualize undo tree
 Plugin 'vim-scripts/Gundo'
 
 " Vim EasyMotion
 Plugin 'easymotion/vim-easymotion'
-
-" Multiple cursors
-Plugin 'terryma/vim-multiple-cursors'
 
 " Tabular
 Plugin 'godlygeek/tabular'
@@ -109,6 +96,13 @@ Plugin 'christoomey/vim-tmux-navigator'
 Plugin 'svermeulen/vim-easyclip'
 Plugin 'tpope/vim-repeat'
 
+"Matlab syntax and stuff
+Plugin 'lazywei/vim-matlab'
+
+Plugin 'nvie/vim-flake8'
+
+Plugin 'mattn/invader-vim'
+
 
 "...All other plugins...
 if iCanHazVundle == 0
@@ -116,16 +110,21 @@ if iCanHazVundle == 0
     echo ""
     :PluginInstall
 endif
-" stop Vundle
-call vundle#end()
 
-" let plugins change indentation
-filetype plugin indent on
+" stop Vundle
+call vundle#end()                                       
+
+" let plugins change indentation 
+filetype plugin indent on                               
+filetype plugin on
+
+" enable matching of tags
+runtime macros/matchit.vim
 " }}}
 
 " Colors {{{
 " enable syntax processing
-syntax enable
+syntax enable           
 
 set t_Co=256
 
@@ -158,7 +157,7 @@ set ffs=unix,dos,mac
 set shell=/bin/bash
 
 " faster redraw
-set ttyfast
+set ttyfast                     
 
 " Make backspace work how it should
 set backspace=indent,eol,start
@@ -169,26 +168,32 @@ set hidden
 " Define leader key to be comma
 let mapleader=","
 
+" Use the below highlight group when displaying bad whitespace is desired.
+highlight BadWhitespace ctermbg=red guibg=red
 
+let python_highlight_all=1
+
+" For full syntax highlighting:
+syntax on
 " }}}
 
 " Spaces & Tabs {{{
 
 " 4 space tab
-set tabstop=3
+set tabstop=3          
 
 " use spaces for tabs
-set expandtab
+set expandtab           
 
 " 3 space tab
-set softtabstop=3
+set softtabstop=3       
 set shiftwidth=3
 set modelines=1
 set autoindent
-set smartindent
-set cindent
+set smartindent 
+set cindent  
 set cino+=(0
-set wrap
+set wrap 
 
 set list
 set listchars=tab:>-
@@ -197,24 +202,24 @@ set listchars=tab:>-
 " UI Layout {{{
 
 " show line numbers
-set number
+set number             
 
 " show command in bottom bar
-set showcmd
+set showcmd             
 
 " highlight current line
-set nocursorline
+set nocursorline          
 set wildmenu
 
 " higlight matching parenthesis
-set showmatch
+set showmatch           
 
 " Always show the status line
 set laststatus=2
 
 " }}}
 
-" Visual Mode Related {{{
+" Visual Mode Related {{{ 
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -225,13 +230,13 @@ vnoremap <silent> # :call VisualSelection('b', '')<CR>
 " Searching Settings {{{
 
 " ignore case when searching
-set ignorecase
+set ignorecase          
 
 " search as characters are entered
-set incsearch
+set incsearch           
 
 " highlight all matches
-set hlsearch
+set hlsearch            
 
 " Try to be smart about cases
 set smartcase
@@ -248,16 +253,16 @@ set magic
 set foldmethod=marker
 
 " max 10 depth
-" set foldnestmax=10
+" set foldnestmax=10      
 
 " don't fold files by default on open
-set foldenable
+set foldenable          
 
 "open and close folds with space
 "nnoremap <space> za
 
 " start with fold level of 10
-" set foldlevelstart=10
+" set foldlevelstart=10    
 
 " }}}
 
@@ -290,6 +295,8 @@ map <leader>bp :bprevious<cr>
 " Go to buffer by name or number
 map <leader>bb :b<Space>
 
+map <leader>ls :buffers<CR>:buffer<Space>
+
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
@@ -316,7 +323,7 @@ map <leader>be :e <c-r>=expand("%:p:h")<cr>/
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers
+" Specify the behavior when switching between buffers 
 try
     set switchbuf=useopen,usetab,newtab
     set stal=2
@@ -358,15 +365,14 @@ nnoremap <leader>m :silent make\|redraw!\|cw<CR>
 nnoremap <leader>h :A<CR>
 nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>ez :e ~/.zshrc<CR>
-nnoremap <leader>ev :e $MYVIMRC<CR>
 nnoremap <leader>et :e ~/.tmux.conf<CR>
 nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>l :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>ms :mksession<CR>
-nnoremap <leader>ag :Ag
+nnoremap <leader>ag :Ag 
 nnoremap <leader>1 :set number!<CR>
-nnoremap <leader>d :Make!
+nnoremap <leader>d :Make! 
 vnoremap <leader>y "+y
 nnoremap <leader>sw :w !sudo tee %<CR>
 "vmap v <Plug>(expand_region_expand)
@@ -374,10 +380,14 @@ nnoremap <leader>sw :w !sudo tee %<CR>
 inoremap jk <esc>
 
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
-nmap <M-j> mz:m+<cr>`z
-nmap <M-k> mz:m-2<cr>`z
-vmap <M-j> :m'>+<cr>`<my`>mzgv`yo`z
-vmap <M-k> :m'<-2<cr>`>my`<mzgv`yo`z
+" where ^] is a single character that represents the ALT key. To input that
+" character, use C+v, Esc
+nnoremap k mz:m-2<CR>`z==
+inoremap j <Esc>:m+<CR>==gi
+inoremap k <Esc>:m-2<CR>==gi
+vnoremap j :m'>+<CR>gv=`<my`>mzgv`yo`z
+nnoremap j mz:m+<CR>`z==
+vnoremap k :m'<-2<CR>gv=`>my`<mzgv`yo`z
 
 if has("mac") || has("macunix")
     nmap <D-j> <M-j>
@@ -417,6 +427,8 @@ map <leader>x :e ~/buffer.md<cr>
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
+map <leader>ra :put =range(
+
 " }}}
 
 " Vim Airline{{{
@@ -445,7 +457,7 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
 nnoremap <leader>w :NERDTreeTabsToggle<CR>
 " }}}
-"
+
 " Gundo {{{
 nnoremap <leader>u :GundoToggle<CR>
 " }}}
@@ -458,101 +470,98 @@ let g:syntastic_cpp_check_header = 1
 let g:syntastic_c_remove_include_errors = 1
 let g:syntastic_quiet_messages = {"regex": 'No such file or directory'}
 
-
-
-
-
-
 nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 " }}}
 
 " YouCompleteMe {{{
 " let g:ycm_autoclose_preview_window_after_completion=1
 " let g:ycm_server_python_interpreter = 'python'
-"
+" 
 " "jump to declaration or definition
 " nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
 
 " NeoComplete and clang_complete{{{
 let g:clang_library_path = '/usr/lib/llvm-3.5/lib'
-" let g:clang_user_options="-std=c++0x"
-" let g:clang_jumpto_declaration_key='<Leader>jd'
-let g:acp_enableAtStartup = 0
-" Use neocomplete.
-let g:neocomplete#enable_at_startup = 1
-" Use smartcase.
-let g:neocomplete#enable_smart_case = 1
-" Set minimum syntax keyword length.
-let g:neocomplete#sources#syntax#min_keyword_length = 3
-let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
-
-" Define dictionary.
-let g:neocomplete#sources#dictionary#dictionaries = {
-    \ 'default' : '',
-    \ 'vimshell' : $HOME.'/.vimshell_hist',
-    \ 'scheme' : $HOME.'/.gosh_completions'
-        \ }
-
-" Define keyword.
-if !exists('g:neocomplete#keyword_patterns')
-    let g:neocomplete#keyword_patterns = {}
-endif
-let g:neocomplete#keyword_patterns['default'] = '\h\w*'
-
-" Plugin key-mappings.
-inoremap <expr><C-g>     neocomplete#undo_completion()
-inoremap <expr><C-l>     neocomplete#complete_common_string()
-
-" Recommended key-mappings.
-" <CR>: close popup and save indent.
-inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
-function! s:my_cr_function()
-  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
-  " For no inserting <CR> key.
-  "return pumvisible() ? "\<C-y>" : "\<CR>"
-endfunction
-" <TAB>: completion.
-inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
-" <C-h>, <BS>: close popup and delete backword char.
-inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
-inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
-" Close popup by <Space>.
-"inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
-
-" AutoComplPop like behavior.
-"let g:neocomplete#enable_auto_select = 1
-
-" Shell like behavior(not recommended).
-"set completeopt+=longest
-"let g:neocomplete#enable_auto_select = 1
-"let g:neocomplete#disable_auto_complete = 1
-"inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
-
-" Enable omni completion.
+"" let g:clang_user_options="-std=c++0x"
+"let g:acp_enableAtStartup = 0
+"" Use neocomplete.
+"let g:neocomplete#enable_at_startup = 1
+"" Use smartcase.
+"let g:neocomplete#enable_smart_case = 1
+"" Set minimum syntax keyword length.
+"let g:neocomplete#sources#syntax#min_keyword_length = 3
+"let g:neocomplete#lock_buffer_name_pattern = '\*ku\*'
+"
+"" Define dictionary.
+"let g:neocomplete#sources#dictionary#dictionaries = {
+"    \ 'default' : '',
+"    \ 'vimshell' : $HOME.'/.vimshell_hist',
+"    \ 'scheme' : $HOME.'/.gosh_completions'
+"        \ }
+"
+"" Define keyword.
+"if !exists('g:neocomplete#keyword_patterns')
+"    let g:neocomplete#keyword_patterns = {}
+"endif
+"let g:neocomplete#keyword_patterns['default'] = '\h\w*'
+"
+"" Plugin key-mappings.
+"inoremap <expr><C-g>     neocomplete#undo_completion()
+"inoremap <expr><C-l>     neocomplete#complete_common_string()
+"
+"" Recommended key-mappings.
+"" <CR>: close popup and save indent.
+"inoremap <silent> <CR> <C-r>=<SID>my_cr_function()<CR>
+"function! s:my_cr_function()
+"  return (pumvisible() ? "\<C-y>" : "" ) . "\<CR>"
+"  " For no inserting <CR> key.
+"  "return pumvisible() ? "\<C-y>" : "\<CR>"
+"endfunction
+"" <TAB>: completion.
+"inoremap <expr><TAB>  pumvisible() ? "\<C-n>" : "\<TAB>"
+"" <C-h>, <BS>: close popup and delete backword char.
+"inoremap <expr><C-h> neocomplete#smart_close_popup()."\<C-h>"
+"inoremap <expr><BS> neocomplete#smart_close_popup()."\<C-h>"
+"" Close popup by <Space>.
+""inoremap <expr><Space> pumvisible() ? "\<C-y>" : "\<Space>"
+"
+"" AutoComplPop like behavior.
+""let g:neocomplete#enable_auto_select = 1
+"
+"" Shell like behavior(not recommended).
+""set completeopt+=longest
+""let g:neocomplete#enable_auto_select = 1
+""let g:neocomplete#disable_auto_complete = 1
+""inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
+"
+"" Enable omni completion.
 autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
 autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
 autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
 autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
 autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-
+"
 autocmd CompleteDone * pclose
+"
+"" Enable heavy omni completion.
+"if !exists('g:neocomplete#sources#omni#input_patterns')
+"  let g:neocomplete#sources#omni#input_patterns = {}
+"endif
+""let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
+"let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
+"let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
+"
+"" For perlomni.vim setting.
+"" https://github.com/c9s/perlomni.vim
+"" let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 
-" Enable heavy omni completion.
-if !exists('g:neocomplete#sources#omni#input_patterns')
-  let g:neocomplete#sources#omni#input_patterns = {}
-endif
-"let g:neocomplete#sources#omni#input_patterns.php = '[^. \t]->\h\w*\|\h\w*::'
-let g:neocomplete#sources#omni#input_patterns.c = '[^.[:digit:] *\t]\%(\.\|->\)'
-let g:neocomplete#sources#omni#input_patterns.cpp = '[^.[:digit:] *\t]\%(\.\|->\)\|\h\w*::'
-
-" For perlomni.vim setting.
-" https://github.com/c9s/perlomni.vim
-let g:neocomplete#sources#omni#input_patterns.perl = '\h\w*->\h\w*\|\h\w*::'
 " }}}
 
 " Tags {{{
-set tags=./tags;/,tags;/
+set tags=./tags;,tags;
+set tags+=~/projects/tags/python-packages/python.tags
+set tags+=~/projects/tags/eigen/eigen.tags
 " set tags=./tags,tags,gtest_tags,c++_tags;$HOME/projects
 inoremap <c-x><c-]> <c-]>
 let Gtags_Auto_Update = 1
@@ -616,7 +625,7 @@ endif
 
 let g:unite_source_history_yank_enable = 1
 
-"View all buffers with unite
+"View all buffers with unite 
 " nnoremap <space>b :Unite -quick-match buffer<cr>
 nnoremap <space>b :Unite -start-insert buffer<cr>
 
@@ -650,98 +659,96 @@ noremap <silent> <Leader>sa :Unite grep:$buffers::<C-r><C-w><CR>
 " let g:pydiction_location = $HOME.'/.vim/bundle/Pydiction/complete-dict'
 " }}}
 
+" Jedi-Vim{{{
+let g:jedi#goto_command = "<leader>jg"
+let g:jedi#goto_assignments_command = "<leader>ja"
+let g:jedi#goto_definitions_command = "<leader>jd"
+let g:jedi#documentation_command = "<leader>k"
+let g:jedi#usages_command = "<leader>nu"
+let g:jedi#completions_command = "<C-Space>"
+let g:jedi#rename_command = "<leader>rn"
+" }}}
+
 " EasyClip {{{
 set clipboard=unnamedplus
 " }}}
 
 " Conque GDB{{{
-" 1: strip color after 200 lines, 2: always with color
-" let g:ConqueTerm_Color = 2
+" " 1: strip color after 200 lines, 2: always with color
+" let g:ConqueTerm_Color = 2         
 " " close conque when program ends running
-" let g:ConqueTerm_CloseOnEnd = 1
+" let g:ConqueTerm_CloseOnEnd = 1    
 " " display warning messages if conqueTerm is configured incorrectly
-" let g:ConqueTerm_StartMessages = 0
+" let g:ConqueTerm_StartMessages = 0 
 " }}}
 
-" Launch Config {{{
-" runtime! debian.vim
-set nocompatible
-" }}}
+" Markdown Preview{{{
+let vim_markdown_preview_hotkey='<leader>md'
+let vim_markdown_preview_browser=''
+"}}}
 
 " MacVim {{{
-set guioptions-=r
+set guioptions-=r 
 set guioptions-=L
 " }}}
 
 " AutoGroups {{{
+
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.txt,*.hs,*.java,*.md,*.rb,*.c,*.cpp,*.h :call <SID>StripTrailingWhitespaces()
+    autocmd BufWritePre *.php,*.py,*.js,*.json,*.txt,*.hs,*.java,*.md,*.rb,*.c,*.cpp,*.h,*mk,Makefile :call <SID>StripTrailingWhitespaces()
     autocmd BufEnter *.cls setlocal filetype=java
     autocmd BufEnter *.zsh-theme setlocal filetype=zsh
     autocmd BufEnter Makefile setlocal noexpandtab
     autocmd BufEnter *.sh setlocal tabstop=2
     autocmd BufEnter *.sh setlocal shiftwidth=2
     autocmd BufEnter *.sh setlocal softtabstop=2
+
+    " Use UNIX (\n) line endings.
+    au BufNewFile *.py,*.pyw,*.c,*.cpp,*.h set fileformat=unix
+
+    " Make trailing whitespace be flagged as bad.
+    autocmd BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
+
+    " ------------Start Python PEP 8 stuff----------------
+    " Number of spaces that a pre-existing tab is equal to.
+    au BufRead,BufNewFile *py,*pyw set tabstop=4
+
+    "spaces for indents
+    au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
+    au BufRead,BufNewFile *.py,*.pyw set expandtab
+    au BufRead,BufNewFile *.py set softtabstop=4
+
+    " Set the default file encoding to UTF-8:
+    au BufEnter *.py set encoding=utf-8
+
+    " Display tabs at the beginning of a line in Python mode as bad.
+    au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
+
+    " Wrap text after a certain number of characters
+    au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
+
+    " Keep indentation level from previous line:
+    autocmd FileType python set autoindent
+
+    "Folding based on indentation:
+    autocmd FileType python set foldmethod=indent
+    autocmd FileType python set nofoldenable
 augroup END
 " }}}
 
 " Backups {{{
 " In case I want to use backups at some point
-" set backup
-" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
-" set backupskip=/tmp/*,/private/tmp/*
-" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" set backup 
+" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+" set backupskip=/tmp/*,/private/tmp/* 
+" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
 " set writebackup
 "" Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
 set nowb
 set noswapfile
-" }}}
-
-" python {{{
-
-" ------------Start Python PEP 8 stuff----------------
-
-" Number of spaces that a pre-existing tab is equal to.
-au BufRead,BufNewFile *py,*pyw,*.c,*.h set tabstop=4
-
-"spaces for indents
-au BufRead,BufNewFile *.py,*pyw set shiftwidth=4
-au BufRead,BufNewFile *.py,*.pyw set expandtab
-au BufRead,BufNewFile *.py set softtabstop=4
-
-" Use the below highlight group when displaying bad whitespace is desired.
-highlight BadWhitespace ctermbg=red guibg=red
-
-" Display tabs at the beginning of a line in Python mode as bad.
-au BufRead,BufNewFile *.py,*.pyw match BadWhitespace /^\t\+/
-
-" Make trailing whitespace be flagged as bad.
-au BufRead,BufNewFile *.py,*.pyw,*.c,*.h match BadWhitespace /\s\+$/
-
-" Wrap text after a certain number of characters
-au BufRead,BufNewFile *.py,*.pyw, set textwidth=100
-
-" Use UNIX (\n) line endings.
-au BufNewFile *.py,*.pyw,*.c,*.h set fileformat=unix
-
-" Set the default file encoding to UTF-8:
-set encoding=utf-8
-
-" For full syntax highlighting:
-let python_highlight_all=1
-syntax on
-
-" Keep indentation level from previous line:
-autocmd FileType python set autoindent
-
-"Folding based on indentation:
-autocmd FileType python set foldmethod=indent
-autocmd FileType python set nofoldenable
-
-"----------Stop python PEP 8 stuff--------------
 " }}}
 
 " Spell checking {{{
@@ -839,7 +846,7 @@ function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
-endfunction
+endfunction 
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
@@ -897,4 +904,4 @@ endfunction
 
 " }}}
 
-"
+" vim:foldmethod=marker:foldlevel=0

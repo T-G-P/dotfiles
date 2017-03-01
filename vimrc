@@ -383,10 +383,10 @@ inoremap jk <esc>
 " where ^] is a single character that represents the ALT key. To input that
 " character, use C+v, Esc
 nnoremap k mz:m-2<CR>`z==
+nnoremap j mz:m+<CR>`z==
 inoremap j <Esc>:m+<CR>==gi
 inoremap k <Esc>:m-2<CR>==gi
 vnoremap j :m'>+<CR>gv=`<my`>mzgv`yo`z
-nnoremap j mz:m+<CR>`z==
 vnoremap k :m'<-2<CR>gv=`>my`<mzgv`yo`z
 
 if has("mac") || has("macunix")

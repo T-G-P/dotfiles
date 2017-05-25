@@ -43,11 +43,16 @@ alias pacmir='sudo pacman -Syy'                    # Force refresh of all packag
 # Force tmux to launch with 256 color support
 alias tmux='tmux -2'
 
+alias python='/usr/bin/python2'
+
 # brutal doom easy aliases
 alias brutalgz='gzdoom -file /usr/games/gzdoom/brutalv20b.pk3 "$@"'
 alias brutalz='zandronum -file /usr/games/gzdoom/brutalv20b.pk3 "$@"'
 alias brutalserver='zandronum-server -file /usr/games/gzdoom/brutalv20b.pk3 -host 10 -skill 4 -private +sv_forcepassword true +sv_password callmemurphy +sv_hostname NuclearGrave +TeamDamage 0.00'
 alias brutalconnect='brutalz -connect $localip:10666 +CL_Password "callmemurphy"'
+
+# bam tools
+alias bamtools='/home/tobias/projects/Eric/bamtools/bin/bamtools'
 
 # Key beindings
 # Enable vi mode
@@ -70,7 +75,7 @@ export KEYTIMEOUT=1
 
 # Setting the go path
 export GOPATH=~/golang/packages
-export PATH=$PATH:~/golang/packages/bin
+export PATH=$PATH:~/golang/packages/bin:/sources/shellTube:/sources/shellTube/lib
 
 # Setting GTK3 var for tux guitar
 export SWT_GTK3=0 

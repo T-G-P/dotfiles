@@ -1,7 +1,9 @@
 " Tobias Perelstein
 "===================
 
-" Heaviliy inspired by dougblack and amix. 
+" Heaviliy inspired by dougblack and amix. Big thanks to shougo for unite.vim  
+" CtrlP is configured as a backup for unite. Big thanks to kien for that
+" awesome plugin
 
 " https://gist.github.com/nongio/87af49b85ce898d3428e
 " https://github.com/j1z0/vim-config/blob/master/vimrc
@@ -50,14 +52,14 @@ Plugin 'kien/ctrlp.vim'
 Plugin 'karlbright/qfdo.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
 " Plugin 'JazzCore/ctrlp-cmatcher'
-Plugin 'scrooloose/nerdtree'
-Plugin 'jistr/vim-nerdtree-tabs'
+" Plugin 'scrooloose/nerdtree'
+" Plugin 'jistr/vim-nerdtree-tabs'
 
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
 
 " Vim abolish
-Plugin 'tpope/vim-abolish'
+" Plugin 'tpope/vim-abolish'
 
 " Python sytax checker
 Plugin 'vim-scripts/indentpython.vim'
@@ -69,7 +71,7 @@ Plugin 'Rip-Rip/clang_complete'
 " Plugin 'Shougo/neocomplete.vim'
 Plugin 'Shougo/neoinclude.vim'
 " Plugin 'Valloric/YouCompleteMe'
-Plugin 'davidhalter/jedi-vim'
+" Plugin 'davidhalter/jedi-vim'
 
 " Debugging
 " Plugin 'vim-scripts/Conque-GDB'
@@ -92,14 +94,16 @@ Plugin 'vim-airline/vim-airline'
 "Vim Tmux Navigator
 Plugin 'christoomey/vim-tmux-navigator'
 
-"Easy Clip
-Plugin 'svermeulen/vim-easyclip'
+"Vim Repeat
 Plugin 'tpope/vim-repeat'
 
 "Matlab syntax and stuff
 Plugin 'lazywei/vim-matlab'
 
 Plugin 'nvie/vim-flake8'
+
+" Tags for files
+Plugin 'majutsushi/tagbar'
 
 Plugin 'mattn/invader-vim'
 
@@ -297,6 +301,9 @@ map <leader>bb :b<Space>
 
 map <leader>ls :buffers<CR>:buffer<Space>
 
+" Vertically split by name or number
+map <leader>vs :vert sb<Space>
+
 " Useful mappings for managing tabs
 map <leader>tn :tabnew<cr>
 map <leader>to :tabonly<cr>
@@ -372,22 +379,22 @@ nnoremap <leader><space> :noh<CR>
 nnoremap <leader>ms :mksession<CR>
 nnoremap <leader>ag :Ag 
 nnoremap <leader>1 :set number!<CR>
-nnoremap <leader>d :Make! 
+" nnoremap <leader>d :Make! 
 vnoremap <leader>y "+y
 nnoremap <leader>sw :w !sudo tee %<CR>
 "vmap v <Plug>(expand_region_expand)
 "vmap <C-v> <Plug>(expand_region_shrink)
 inoremap jk <esc>
-
+nnoremap <leader>dh d<HOME>
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 " where ^] is a single character that represents the ALT key. To input that
 " character, use C+v, Esc
-nnoremap k mz:m-2<CR>`z==
-nnoremap j mz:m+<CR>`z==
-inoremap j <Esc>:m+<CR>==gi
-inoremap k <Esc>:m-2<CR>==gi
-vnoremap j :m'>+<CR>gv=`<my`>mzgv`yo`z
-vnoremap k :m'<-2<CR>gv=`>my`<mzgv`yo`z
+" nnoremap k mz:m-2<CR>`z==
+" inoremap j <Esc>:m+<CR>==gi
+" inoremap k <Esc>:m-2<CR>==gi
+" vnoremap j :m'>+<CR>gv=`<my`>mzgv`yo`z
+" nnoremap j mz:m+<CR>`z==
+" vnoremap k :m'<-2<CR>gv=`>my`<mzgv`yo`z
 
 if has("mac") || has("macunix")
     nmap <D-j> <M-j>
@@ -410,10 +417,10 @@ vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 " To go to the previous search results do:
 "   <leader>p
 "
-map <leader>cc :botright cope<cr>
-map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-map <leader>n :cn<cr>
-map <leader>p :cp<cr>
+" map <leader>cc :botright cope<cr>
+" map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
+" map <leader>n :cn<cr>
+" map <leader>p :cp<cr>
 
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
@@ -429,6 +436,10 @@ map <leader>pp :setlocal paste!<cr>
 
 map <leader>ra :put =range(
 
+nnoremap <leader>d "_d
+vnoremap <leader>d "_d
+vnoremap <leader>p "_dP
+
 " }}}
 
 " Vim Airline{{{
@@ -438,7 +449,7 @@ let g:airline_left_sep = ''
 let g:airline_left_alt_sep = ''
 let g:airline_right_sep = ''
 let g:airline_right_alt_sep = ''
-let g:airline#extensions#tabline#show_tabs = 0
+let g:airline#extensions#tabline#show_tabs = 1
 let g:airline#extensions#tabline#enabled = 1
 let g:airline#extensions#tabline#fnamemod = ':t'
 let g:airline#extensions#tabline#buffer_nr_show = 1
@@ -451,11 +462,23 @@ let g:ctrlp_switch_buffer = 0
 let g:ctrlp_working_path_mode = 0
 let g:ctrlp_custom_ignore = '\vbuild/|dist/|venv/|target/|\.(o|swp|pyc|egg)$'
 let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
+let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 " }}}
 
 " NERDTree {{{
-let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
-nnoremap <leader>w :NERDTreeTabsToggle<CR>
+" let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
+" nnoremap <leader>w :NERDTreeTabsToggle<CR>
+" }}}
+
+" NetRW{{{
+let g:netrw_banner = 0
+let g:netrw_liststyle = 3
+let g:netrw_browse_split = 4
+let g:netrw_altv = 1
+let g:netrw_winsize = 25
+let g:netrw_list_hide= '.*\.swp$,\~$,\.orig$'
+map <silent> <leader>w :call ToggleVExplorer()<CR>
+
 " }}}
 
 " Gundo {{{
@@ -483,6 +506,9 @@ nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 
 " NeoComplete and clang_complete{{{
 let g:clang_library_path = '/usr/lib/llvm-3.5/lib'
+let g:clang_jumpto_declaration_key = '<leader>jd'
+let g:clang_user_options = '-std=c++11'
+
 "" let g:clang_user_options="-std=c++0x"
 "let g:acp_enableAtStartup = 0
 "" Use neocomplete.
@@ -536,13 +562,13 @@ let g:clang_library_path = '/usr/lib/llvm-3.5/lib'
 ""inoremap <expr><TAB>  pumvisible() ? "\<Down>" : "\<C-x>\<C-u>"
 "
 "" Enable omni completion.
-autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
-autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
-autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
-autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
-autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
-"
-autocmd CompleteDone * pclose
+" autocmd FileType css setlocal omnifunc=csscomplete#CompleteCSS
+" autocmd FileType html,markdown setlocal omnifunc=htmlcomplete#CompleteTags
+" autocmd FileType javascript setlocal omnifunc=javascriptcomplete#CompleteJS
+" autocmd FileType python setlocal omnifunc=pythoncomplete#Complete
+" autocmd FileType xml setlocal omnifunc=xmlcomplete#CompleteTags
+" "
+" autocmd CompleteDone * pclose
 "
 "" Enable heavy omni completion.
 "if !exists('g:neocomplete#sources#omni#input_patterns')
@@ -560,12 +586,12 @@ autocmd CompleteDone * pclose
 
 " Tags {{{
 set tags=./tags;,tags;
-set tags+=~/projects/tags/python-packages/python.tags
-set tags+=~/projects/tags/eigen/eigen.tags
+" set tags+=~/projects/tags/python-packages/python.tags
+" set tags+=~/projects/tags/eigen/eigen.tags
 " set tags=./tags,tags,gtest_tags,c++_tags;$HOME/projects
 inoremap <c-x><c-]> <c-]>
 let Gtags_Auto_Update = 1
-nnoremap <leader>jd :GtagsCursor<CR>
+" nnoremap <leader>jd :GtagsCursor<CR>
 set csprg=gtags-cscope
 " }}}
 
@@ -660,13 +686,13 @@ noremap <silent> <Leader>sa :Unite grep:$buffers::<C-r><C-w><CR>
 " }}}
 
 " Jedi-Vim{{{
-let g:jedi#goto_command = "<leader>jg"
-let g:jedi#goto_assignments_command = "<leader>ja"
-let g:jedi#goto_definitions_command = "<leader>jd"
-let g:jedi#documentation_command = "<leader>k"
-let g:jedi#usages_command = "<leader>nu"
-let g:jedi#completions_command = "<C-Space>"
-let g:jedi#rename_command = "<leader>rn"
+" let g:jedi#goto_command = "<leader>jg"
+" let g:jedi#goto_assignments_command = "<leader>ja"
+" let g:jedi#goto_definitions_command = "<leader>jd"
+" let g:jedi#documentation_command = "<leader>k"
+" let g:jedi#usages_command = "<leader>nu"
+" let g:jedi#completions_command = "<C-Space>"
+" let g:jedi#rename_command = "<leader>rn"
 " }}}
 
 " EasyClip {{{
@@ -697,7 +723,7 @@ set guioptions-=L
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.json,*.txt,*.hs,*.java,*.md,*.rb,*.c,*.cpp,*.h,*mk,Makefile :call <SID>StripTrailingWhitespaces()
+    autocmd BufWritePre *.php,*.py,*.js,*.json,*.txt,*.hs,*.java,*.md,*.rb,*.c,*.cpp,*.h,*.mk,Makefile,*.sh,Jenkinsfile* :call <SID>StripTrailingWhitespaces()
     autocmd BufEnter *.cls setlocal filetype=java
     autocmd BufEnter *.zsh-theme setlocal filetype=zsh
     autocmd BufEnter Makefile setlocal noexpandtab
@@ -735,6 +761,9 @@ augroup configgroup
     "Folding based on indentation:
     autocmd FileType python set foldmethod=indent
     autocmd FileType python set nofoldenable
+
+    au BufReadPost Jenkinsfile* set syntax=groovy
+    au BufReadPost Jenkinsfile* set filetype=groovy
 augroup END
 " }}}
 
@@ -902,6 +931,24 @@ function! <SID>BufcloseCloseIt()
     endif
 endfunction
 
+function! ToggleVExplorer()
+  if exists("t:expl_buf_num")
+      let expl_win_num = bufwinnr(t:expl_buf_num)
+      if expl_win_num != -1
+          let cur_win_nr = winnr()
+          exec expl_win_num . 'wincmd w'
+          close
+          exec cur_win_nr . 'wincmd w'
+          unlet t:expl_buf_num
+      else
+          unlet t:expl_buf_num
+      endif
+  else
+      exec '1wincmd w'
+      Vexplore
+      let t:expl_buf_num = bufnr("%")
+  endif
+endfunction
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0

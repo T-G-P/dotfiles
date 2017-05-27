@@ -47,26 +47,20 @@ Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/neomru.vim'
 Plugin 'Shougo/neoyank.vim'
 Plugin 'Shougo/unite.vim'
-Plugin 'rking/ag.vim'
 Plugin 'kien/ctrlp.vim' 
-Plugin 'karlbright/qfdo.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
 " Plugin 'JazzCore/ctrlp-cmatcher'
-" Plugin 'scrooloose/nerdtree'
-" Plugin 'jistr/vim-nerdtree-tabs'
 
 " Git wrapper
 Plugin 'tpope/vim-fugitive'
 
-" Vim abolish
-" Plugin 'tpope/vim-abolish'
-
 " Python sytax checker
 Plugin 'vim-scripts/indentpython.vim'
+
+" Syntax checking
 Plugin 'scrooloose/syntastic'
 
 " Auto-completion stuff
-" Plugin 'craigemery/vim-autotag'
 Plugin 'Rip-Rip/clang_complete'
 " Plugin 'Shougo/neocomplete.vim'
 Plugin 'Shougo/neoinclude.vim'
@@ -97,14 +91,16 @@ Plugin 'christoomey/vim-tmux-navigator'
 "Vim Repeat
 Plugin 'tpope/vim-repeat'
 
-"Matlab syntax and stuff
+"Matlab syntax highlighting
 Plugin 'lazywei/vim-matlab'
 
+" Python flake8 integration
 Plugin 'nvie/vim-flake8'
 
 " Tags for files
 Plugin 'majutsushi/tagbar'
 
+" All work and no play makes Jack a dull boy
 Plugin 'mattn/invader-vim'
 
 
@@ -183,7 +179,7 @@ syntax on
 
 " Spaces & Tabs {{{
 
-" 4 space tab
+" 3 space tab
 set tabstop=3          
 
 " use spaces for tabs
@@ -248,6 +244,20 @@ set smartcase
 " For regular expressions
 set magic
 
+" Set grep command to use ag
+if executable('ag')
+   set grepprg=ag\ --nogroup\ --nocolor
+endif
+
+" }}}
+
+" Custom Commands {{{
+
+" Add custom Ag command that calls grep replaces existing Ag command if it exists
+command! -nargs=+ -complete=file -bar Ag silent! grep! <args>|cwindow|redraw!
+
+" Define a command to make it easier to use
+command! -nargs=1 -bang Qfdo :call QFDo_each_line(<bang>0,<q-args>)
 
 " }}}
 
@@ -377,7 +387,7 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>l :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>ms :mksession<CR>
-nnoremap <leader>ag :Ag 
+"nnoremap <leader>ag :Ag 
 nnoremap <leader>1 :set number!<CR>
 " nnoremap <leader>d :Make! 
 vnoremap <leader>y "+y
@@ -389,12 +399,12 @@ nnoremap <leader>dh d<HOME>
 " Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
 " where ^] is a single character that represents the ALT key. To input that
 " character, use C+v, Esc
-" nnoremap k mz:m-2<CR>`z==
-" inoremap j <Esc>:m+<CR>==gi
-" inoremap k <Esc>:m-2<CR>==gi
-" vnoremap j :m'>+<CR>gv=`<my`>mzgv`yo`z
-" nnoremap j mz:m+<CR>`z==
-" vnoremap k :m'<-2<CR>gv=`>my`<mzgv`yo`z
+" nnoremap k mz:m-2<CR>`z==
+" inoremap j <Esc>:m+<CR>==gi
+" inoremap k <Esc>:m-2<CR>==gi
+" vnoremap j :m'>+<CR>gv=`<my`>mzgv`yo`z
+" nnoremap j mz:m+<CR>`z==
+" vnoremap k :m'<-2<CR>gv=`>my`<mzgv`yo`z
 
 if has("mac") || has("macunix")
     nmap <D-j> <M-j>
@@ -439,6 +449,10 @@ map <leader>ra :put =range(
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
 vnoremap <leader>p "_dP
+
+" Grep word under cursor
+"nnoremap <leader>ag :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
+nnoremap <leader>ag :Ag<SPACE>
 
 " }}}
 
@@ -598,7 +612,7 @@ set csprg=gtags-cscope
 " Ag {{{
 
 "Start ag from project root
-let g:ag_working_path_mode="r"
+"let g:ag_working_path_mode="r"
 " }}}
 
 " Unite {{{
@@ -633,15 +647,9 @@ call unite#filters#sorter_default#use(['sorter_rank'])
 " Call these custom settings on all unite buffers:
 autocmd FileType unite call s:unite_settings()
 
-" unite grep using the_platinum_searcher
-if executable('pt')
-    let g:unite_source_rec_async_command = ['pt', '--nocolor', '--nogroup', '-g', '.']
-    let g:unite_source_grep_command = 'pt'
-    let g:unite_source_grep_default_opts = '--nogroup --nocolor'
-    let g:unite_source_grep_recursive_opt = ''
-    let g:unite_source_grep_encoding = 'utf-8'
+" unite grep using the_silver_searcher
 
-elseif executable('ag')
+if executable('ag')
     let g:unite_source_rec_async_command = ['ag', '--nocolor', '--nogroup', '-g', '.']
     let g:unite_source_grep_command = 'ag'
     let g:unite_source_grep_default_oags = '--nogroup --nocolor'
@@ -887,10 +895,20 @@ function! VisualSelection(direction, extra_filter) range
     if a:direction == 'b'
         execute "normal ?" . l:pattern . "^M"
     elseif a:direction == 'ga'
-        call CmdLine("Ag \"" . l:pattern . "\" " )
+      if executable('ag')
+        call CmdLine("Ag " . l:pattern ."<CR>" )
+      else
+        execute "grep -R " . l:pattern ." %:p:h"
+        execute "cwindow"
+      endif
     elseif a:direction == 'qf'
-        call CmdLine("Ag \"" . l:pattern . "\" " )
-        call CmdLine("Qfdo s" . '/'. l:pattern . '/')
+      if executable('ag')
+        call CmdLine("Ag " . l:pattern ."<CR>" )
+      else
+        execute "grep -R " . l:pattern ." %:p:h"
+        execute "cwindow"
+      endif
+      call CmdLine("Qfdo s" . '/'. l:pattern . '/')
     elseif a:direction == 'replace'
         call CmdLine("%s" . '/'. l:pattern . '/')
     elseif a:direction == 'f'
@@ -900,7 +918,6 @@ function! VisualSelection(direction, extra_filter) range
     let @/ = l:pattern
     let @" = l:saved_reg
 endfunction
-
 
 " Returns true if paste mode is enabled
 function! HasPaste()
@@ -949,6 +966,28 @@ function! ToggleVExplorer()
       let t:expl_buf_num = bufnr("%")
   endif
 endfunction
+
+" https://github.com/karlbright/qfdo.vim/blob/master/plugin/qfdo.vim
+function! QFDo_each_line(bang, command)
+   try
+      if a:bang
+         silent lrewind
+      else
+         silent crewind
+      endif
+      while 1
+         echo bufname("%") line(".")
+         execute a:command
+         if a:bang
+            silent lnext
+         else
+            silent cnext
+         endif
+      endwhile
+   catch /^Vim\%((\a\+)\)\=:E\%(553\|42\):/
+   endtry
+endfunction
+
 " }}}
 
 " vim:foldmethod=marker:foldlevel=0

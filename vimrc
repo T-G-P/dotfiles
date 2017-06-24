@@ -70,9 +70,6 @@ Plugin 'Shougo/neoinclude.vim'
 " Debugging
 Plugin 'vim-scripts/Conque-GDB'
 
-" Visualize undo tree
-Plugin 'vim-scripts/Gundo'
-
 " Vim EasyMotion
 Plugin 'easymotion/vim-easymotion'
 
@@ -96,9 +93,6 @@ Plugin 'lazywei/vim-matlab'
 
 " Python flake8 integration
 Plugin 'nvie/vim-flake8'
-
-" Tags for files
-Plugin 'majutsushi/tagbar'
 
 " All work and no play makes Jack a dull boy
 Plugin 'vim-scripts/TeTrIs.vim'
@@ -175,6 +169,9 @@ let python_highlight_all=1
 
 " For full syntax highlighting:
 syntax on
+
+" Allows yanking to the system clipboard
+set clipboard=unnamedplus
 " }}}
 
 " Spaces & Tabs {{{
@@ -428,7 +425,7 @@ map <leader>q :e ~/buffer<cr>
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
 
-map <leader>ra :put =range(
+map <leader>ra :put =range(,)
 
 nnoremap <leader>d "_d
 vnoremap <leader>d "_d
@@ -465,11 +462,6 @@ let g:ctrlp_match_func = { 'match': 'pymatcher#PyMatch' }
 let g:ctrlp_extensions = ['buffertag', 'tag', 'line', 'dir']
 " }}}
 
-" NERDTree {{{
-" let NERDTreeIgnore = ['\.pyc$', 'build', 'venv', 'egg', 'egg-info/', 'dist', 'docs']
-" nnoremap <leader>w :NERDTreeTabsToggle<CR>
-" }}}
-
 " NetRW{{{
 let g:netrw_banner = 0
 let g:netrw_liststyle = 3
@@ -479,10 +471,6 @@ let g:netrw_winsize = 25
 let g:netrw_list_hide= '.*\.swp$,\~$,\.orig$'
 map <silent> <leader>w :call ToggleVExplorer()<CR>
 
-" }}}
-
-" Gundo {{{
-nnoremap <leader>u :GundoToggle<CR>
 " }}}
 
 " Syntastic {{{
@@ -590,12 +578,12 @@ let g:clang_user_options = '-std=c++11'
 
 " Tags {{{
 set tags=./tags;,tags;
-" set tags+=~/projects/tags/python-packages/python.tags
-" set tags+=~/projects/tags/eigen/eigen.tags
-" set tags=./tags,tags,gtest_tags,c++_tags;$HOME/projects
+
 inoremap <c-x><c-]> <c-]>
+
 let Gtags_Auto_Update = 1
 " nnoremap <leader>jd :GtagsCursor<CR>
+
 set csprg=gtags-cscope
 " }}}
 
@@ -681,10 +669,6 @@ noremap <silent> <Leader>sa :Unite grep:$buffers::<C-r><C-w><CR>
 " let g:jedi#usages_command = "<leader>nu"
 " let g:jedi#completions_command = "<C-Space>"
 " let g:jedi#rename_command = "<leader>rn"
-" }}}
-
-" EasyClip {{{
-set clipboard=unnamedplus
 " }}}
 
 " Conque GDB{{{

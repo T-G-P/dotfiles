@@ -87,3 +87,16 @@ export EDITOR=vim
 # https://github.com/trapd00r/LS_COLORS
 eval $(dircolors -b $HOME/.dircolors)
 zstyle ':completion:*:default' list-colors ${(s.:.)LS_COLORS}
+
+function server_cp()
+{
+   scp $1 tobias:
+
+   web_home=/usr/share/nginx/www
+
+   filename=`basename $1`
+
+   ssh -t tobias "chmod 777 $filename; sudo cp -f $filename $web_home"
+
+   printf "File can be found at:\nhttp://perelste.in/$filename\n"
+}

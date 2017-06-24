@@ -1,7 +1,7 @@
 " Tobias Perelstein
 "===================
 
-" Heaviliy inspired by dougblack and amix. Big thanks to shougo for unite.vim  
+" Heaviliy inspired by dougblack and amix. Big thanks to shougo for unite.vim
 " CtrlP is configured as a backup for unite. Big thanks to kien for that
 " awesome plugin
 
@@ -14,10 +14,10 @@
 " Vundle {{{
 
 " required for Vundle
-set nocompatible                                        
+set nocompatible
 
 " required for Vundle
-filetype off                                            
+filetype off
 
 " setting up vundle and add Vundle to runtime path
 
@@ -37,7 +37,7 @@ set rtp+=~/.vim/bundle/vundle/
 " Plugins {{{
 
 " start Vundle
-call vundle#begin()                                     
+call vundle#begin()
 
 " let Vundle manage Vundle
 Plugin 'gmarik/vundle'
@@ -47,7 +47,7 @@ Plugin 'Shougo/vimproc.vim'
 Plugin 'Shougo/neomru.vim'
 Plugin 'Shougo/neoyank.vim'
 Plugin 'Shougo/unite.vim'
-Plugin 'kien/ctrlp.vim' 
+Plugin 'kien/ctrlp.vim'
 Plugin 'FelikZ/ctrlp-py-matcher'
 " Plugin 'JazzCore/ctrlp-cmatcher'
 
@@ -68,7 +68,7 @@ Plugin 'Shougo/neoinclude.vim'
 " Plugin 'davidhalter/jedi-vim'
 
 " Debugging
-" Plugin 'vim-scripts/Conque-GDB'
+Plugin 'vim-scripts/Conque-GDB'
 
 " Visualize undo tree
 Plugin 'vim-scripts/Gundo'
@@ -101,7 +101,7 @@ Plugin 'nvie/vim-flake8'
 Plugin 'majutsushi/tagbar'
 
 " All work and no play makes Jack a dull boy
-Plugin 'mattn/invader-vim'
+Plugin 'vim-scripts/TeTrIs.vim'
 
 
 "...All other plugins...
@@ -112,10 +112,10 @@ if iCanHazVundle == 0
 endif
 
 " stop Vundle
-call vundle#end()                                       
+call vundle#end()
 
-" let plugins change indentation 
-filetype plugin indent on                               
+" let plugins change indentation
+filetype plugin indent on
 filetype plugin on
 
 " enable matching of tags
@@ -124,7 +124,7 @@ runtime macros/matchit.vim
 
 " Colors {{{
 " enable syntax processing
-syntax enable           
+syntax enable
 
 set t_Co=256
 
@@ -157,7 +157,7 @@ set ffs=unix,dos,mac
 set shell=/bin/bash
 
 " faster redraw
-set ttyfast                     
+set ttyfast
 
 " Make backspace work how it should
 set backspace=indent,eol,start
@@ -180,20 +180,20 @@ syntax on
 " Spaces & Tabs {{{
 
 " 3 space tab
-set tabstop=3          
+set tabstop=3
 
 " use spaces for tabs
-set expandtab           
+set expandtab
 
 " 3 space tab
-set softtabstop=3       
+set softtabstop=3
 set shiftwidth=3
 set modelines=1
 set autoindent
-set smartindent 
-set cindent  
+set smartindent
+set cindent
 set cino+=(0
-set wrap 
+set wrap
 
 set list
 set listchars=tab:>-
@@ -202,24 +202,24 @@ set listchars=tab:>-
 " UI Layout {{{
 
 " show line numbers
-set number             
+set number
 
 " show command in bottom bar
-set showcmd             
+set showcmd
 
 " highlight current line
-set nocursorline          
+set nocursorline
 set wildmenu
 
 " higlight matching parenthesis
-set showmatch           
+set showmatch
 
 " Always show the status line
 set laststatus=2
 
 " }}}
 
-" Visual Mode Related {{{ 
+" Visual Mode Related {{{
 
 " Visual mode pressing * or # searches for the current selection
 " Super useful! From an idea by Michael Naumann
@@ -230,13 +230,13 @@ vnoremap <silent> # :call VisualSelection('b', '')<CR>
 " Searching Settings {{{
 
 " ignore case when searching
-set ignorecase          
+set ignorecase
 
 " search as characters are entered
-set incsearch           
+set incsearch
 
 " highlight all matches
-set hlsearch            
+set hlsearch
 
 " Try to be smart about cases
 set smartcase
@@ -246,7 +246,7 @@ set magic
 
 " Set grep command to use ag
 if executable('ag')
-   set grepprg=ag\ --nogroup\ --nocolor
+   set grepprg=ag\ --nogroup\ --nocolor\ --ignore\ '*tags*'
 endif
 
 " }}}
@@ -267,16 +267,16 @@ command! -nargs=1 -bang Qfdo :call QFDo_each_line(<bang>0,<q-args>)
 set foldmethod=marker
 
 " max 10 depth
-" set foldnestmax=10      
+" set foldnestmax=10
 
 " don't fold files by default on open
-set foldenable          
+set foldenable
 
 "open and close folds with space
 "nnoremap <space> za
 
 " start with fold level of 10
-" set foldlevelstart=10    
+" set foldlevelstart=10
 
 " }}}
 
@@ -309,7 +309,14 @@ map <leader>bp :bprevious<cr>
 " Go to buffer by name or number
 map <leader>bb :b<Space>
 
-map <leader>ls :buffers<CR>:buffer<Space>
+" List all buffers and provide quick way to open new buffer
+map <leader>lsb :buffers<CR>:buffer<Space>
+
+" List all buffers and provide quick way to vertically split new buffer
+map <leader>lsv :buffers<CR>:vert sb<Space>
+
+" List all buffers and provide quick way to easily delete buffer
+map <leader>lsd :buffers<CR>:bd<Space>
 
 " Vertically split by name or number
 map <leader>vs :vert sb<Space>
@@ -337,10 +344,15 @@ map <leader>te :tabedit <c-r>=expand("%:p:h")<cr>/
 " Opens a new buffer with the current buffer's path
 map <leader>be :e <c-r>=expand("%:p:h")<cr>/
 
+map <leader>ve :vsp <c-r>=expand("%:p:h")<cr>/
+
 " Switch CWD to the directory of the open buffer
 map <leader>cd :cd %:p:h<cr>:pwd<cr>
 
-" Specify the behavior when switching between buffers 
+" Remove file open in current buffer from the filesystem.
+map <leader>rm !rm -f %:p:r %
+
+" Specify the behavior when switching between buffers
 try
     set switchbuf=useopen,usetab,newtab
     set stal=2
@@ -387,24 +399,15 @@ nnoremap <leader>sv :source $MYVIMRC<CR>
 nnoremap <leader>l :call ToggleNumber()<CR>
 nnoremap <leader><space> :noh<CR>
 nnoremap <leader>ms :mksession<CR>
-"nnoremap <leader>ag :Ag 
+"nnoremap <leader>ag :Ag
 nnoremap <leader>1 :set number!<CR>
-" nnoremap <leader>d :Make! 
+" nnoremap <leader>d :Make!
 vnoremap <leader>y "+y
 nnoremap <leader>sw :w !sudo tee %<CR>
 "vmap v <Plug>(expand_region_expand)
 "vmap <C-v> <Plug>(expand_region_shrink)
 inoremap jk <esc>
 nnoremap <leader>dh d<HOME>
-" Move a line of text using ALT+[jk] or Comamnd+[jk] on mac
-" where ^] is a single character that represents the ALT key. To input that
-" character, use C+v, Esc
-" nnoremap k mz:m-2<CR>`z==
-" inoremap j <Esc>:m+<CR>==gi
-" inoremap k <Esc>:m-2<CR>==gi
-" vnoremap j :m'>+<CR>gv=`<my`>mzgv`yo`z
-" nnoremap j mz:m+<CR>`z==
-" vnoremap k :m'<-2<CR>gv=`>my`<mzgv`yo`z
 
 if has("mac") || has("macunix")
     nmap <D-j> <M-j>
@@ -416,30 +419,11 @@ endif
 " When you press <leader>r you can search and replace the selected text
 vnoremap <silent> <leader>r :call VisualSelection('replace', '')<CR>
 
-" Do :help cope if you are unsure what cope is. It's super useful!
-"
-" When you search with Ag, display your results in cope by doing:
-"   <leader>cc
-"
-" To go to the next search result do:
-"   <leader>n
-"
-" To go to the previous search results do:
-"   <leader>p
-"
-" map <leader>cc :botright cope<cr>
-" map <leader>co ggVGy:tabnew<cr>:set syntax=qf<cr>pgg
-" map <leader>n :cn<cr>
-" map <leader>p :cp<cr>
-
 " Remove the Windows ^M - when the encodings gets messed up
 noremap <Leader>m mmHmt:%s/<C-V><cr>//ge<cr>'tzt'm
 
 " Quickly open a buffer for scribble
 map <leader>q :e ~/buffer<cr>
-
-" Quickly open a markdown buffer for scribble
-map <leader>x :e ~/buffer.md<cr>
 
 " Toggle paste mode on and off
 map <leader>pp :setlocal paste!<cr>
@@ -453,6 +437,8 @@ vnoremap <leader>p "_dP
 " Grep word under cursor
 "nnoremap <leader>ag :grep! "\b<C-R><C-W>\b"<CR>:cw<CR>
 nnoremap <leader>ag :Ag<SPACE>
+
+vnoremap <leader>al !column -ts<Space>
 
 " }}}
 
@@ -513,12 +499,16 @@ nnoremap <leader>c :SyntasticCheck<CR>:Errors<CR>
 " YouCompleteMe {{{
 " let g:ycm_autoclose_preview_window_after_completion=1
 " let g:ycm_server_python_interpreter = 'python'
-" 
+"
 " "jump to declaration or definition
 " nnoremap <leader>jd :YcmCompleter GoTo<CR>
 " }}}
 
 " NeoComplete and clang_complete{{{
+autocmd CursorMovedI * if pumvisible() == 0|pclose|endif
+autocmd InsertLeave * if pumvisible() == 0|pclose|endif
+
+let g:clang_use_library = 1
 let g:clang_library_path = '/usr/lib/llvm-3.5/lib'
 let g:clang_jumpto_declaration_key = '<leader>jd'
 let g:clang_user_options = '-std=c++11'
@@ -609,12 +599,6 @@ let Gtags_Auto_Update = 1
 set csprg=gtags-cscope
 " }}}
 
-" Ag {{{
-
-"Start ag from project root
-"let g:ag_working_path_mode="r"
-" }}}
-
 " Unite {{{
 
 " Excluded directories for unite
@@ -659,7 +643,7 @@ endif
 
 let g:unite_source_history_yank_enable = 1
 
-"View all buffers with unite 
+"View all buffers with unite
 " nnoremap <space>b :Unite -quick-match buffer<cr>
 nnoremap <space>b :Unite -start-insert buffer<cr>
 
@@ -689,10 +673,6 @@ noremap <silent> <Leader>sa :Unite grep:$buffers::<C-r><C-w><CR>
 
 " }}}
 
-" Pydiction {{{
-" let g:pydiction_location = $HOME.'/.vim/bundle/Pydiction/complete-dict'
-" }}}
-
 " Jedi-Vim{{{
 " let g:jedi#goto_command = "<leader>jg"
 " let g:jedi#goto_assignments_command = "<leader>ja"
@@ -708,21 +688,16 @@ set clipboard=unnamedplus
 " }}}
 
 " Conque GDB{{{
-" " 1: strip color after 200 lines, 2: always with color
-" let g:ConqueTerm_Color = 2         
-" " close conque when program ends running
-" let g:ConqueTerm_CloseOnEnd = 1    
-" " display warning messages if conqueTerm is configured incorrectly
-" let g:ConqueTerm_StartMessages = 0 
+" 1: strip color after 200 lines, 2: always with color
+let g:ConqueTerm_Color = 2
+" close conque when program ends running
+let g:ConqueTerm_CloseOnEnd = 1
+" display warning messages if conqueTerm is configured incorrectly
+let g:ConqueTerm_StartMessages = 0
 " }}}
 
-" Markdown Preview{{{
-let vim_markdown_preview_hotkey='<leader>md'
-let vim_markdown_preview_browser=''
-"}}}
-
 " MacVim {{{
-set guioptions-=r 
+set guioptions-=r
 set guioptions-=L
 " }}}
 
@@ -731,7 +706,7 @@ set guioptions-=L
 augroup configgroup
     autocmd!
     autocmd VimEnter * highlight clear SignColumn
-    autocmd BufWritePre *.php,*.py,*.js,*.json,*.txt,*.hs,*.java,*.md,*.rb,*.c,*.cpp,*.h,*.mk,Makefile,*.sh,Jenkinsfile* :call <SID>StripTrailingWhitespaces()
+    autocmd BufWritePre *.php,*.py,*.js,*.json,*.txt,*.hs,*.java,*.md,*.rb,*.c,*.cpp,*.h,*.mk,Makefile,*.sh,Jenkinsfile*,.*rc :call <SID>StripTrailingWhitespaces()
     autocmd BufEnter *.cls setlocal filetype=java
     autocmd BufEnter *.zsh-theme setlocal filetype=zsh
     autocmd BufEnter Makefile setlocal noexpandtab
@@ -777,10 +752,10 @@ augroup END
 
 " Backups {{{
 " In case I want to use backups at some point
-" set backup 
-" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
-" set backupskip=/tmp/*,/private/tmp/* 
-" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp 
+" set backup
+" set backupdir=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
+" set backupskip=/tmp/*,/private/tmp/*
+" set directory=~/.vim-tmp,~/.tmp,~/tmp,/var/tmp,/tmp
 " set writebackup
 "" Turn backup off, since most stuff is in SVN, git et.c anyway...
 set nobackup
@@ -883,7 +858,7 @@ function! CmdLine(str)
     exe "menu Foo.Bar :" . a:str
     emenu Foo.Bar
     unmenu Foo
-endfunction 
+endfunction
 
 function! VisualSelection(direction, extra_filter) range
     let l:saved_reg = @"
@@ -905,7 +880,7 @@ function! VisualSelection(direction, extra_filter) range
       if executable('ag')
         call CmdLine("Ag " . l:pattern ."<CR>" )
       else
-        execute "grep -R " . l:pattern ." %:p:h"
+        execute "grep -R " . l:pattern ." %:p:h <CR>"
         execute "cwindow"
       endif
       call CmdLine("Qfdo s" . '/'. l:pattern . '/')
